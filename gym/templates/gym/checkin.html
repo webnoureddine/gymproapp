@@ -1,0 +1,115 @@
+{% extends "gym/base.html" %}{% load i18n static gym_tags %}
+{% block title %}{% translate "Check-in" %}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>{% translate "Check-in" %}</h1><div class="muted small">{% translate "Scan the member card, type the ID, or search by name." %}</div></div>
+  <div class="actions">
+    <span class="badge badge-ok" style="font-size:.9rem;padding:6px 12px">{{ count_today }} {% translate "members today" %}</span>
+    {% if denied_today %}<span class="badge badge-bad" style="font-size:.9rem;padding:6px 12px">{{ denied_today }} {% translate "refused" %}</span>{% endif %}
+  </div>
+</div>
+
+<div class="grid g-main">
+  <div class="stack">
+    <div class="card ci-hero">
+      <form id="ciForm" class="ac" data-ac="{% url 'member_search_api' %}" data-go="pick" autocomplete="off">
+        <div class="row" style="flex-wrap:nowrap">
+          <input id="ciInput" class="input ci-input" placeholder="{% translate 'Scan card or type ID / name…' %}" autofocus>
+          <button type="button" class="btn btn-lg" id="camBtn" title="{% translate 'Scan with camera' %}">{% icon "camera" 22 %}</button>
+        </div>
+        <div class="ac-list hidden"></div>
+      </form>
+      <div id="reader" class="hidden" style="margin-top:12px;max-width:420px"></div>
+    </div>
+
+    <div id="result" class="hidden"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><h2>{% translate "Today" %}</h2><button class="btn btn-sm" onclick="location.reload()">{% icon "refresh" 14 %}</button></div>
+    <ul class="list" id="recent">
+      {% for c in recent %}<li>
+        <a class="person grow" href="{% url 'member_detail' c.member_id %}">
+          <div class="avatar">{% if c.member.photo %}<img src="{{ c.member.photo.url }}" alt="">{% else %}{{ c.member.initials }}{% endif %}</div>
+          <div style="min-width:0"><b>{{ c.member.full_name }}</b><span>{{ c.at|time:"H:i" }}{% if c.subscription %} · {{ c.subscription.plan_name }}{% endif %}</span></div>
+        </a>
+        {% if c.allowed %}<span class="badge badge-ok">{% icon "check" 12 %}</span>{% else %}<span class="badge badge-bad">{% icon "x" 12 %}</span>{% endif %}
+      </li>{% empty %}<li class="empty small" id="noVisit">{% translate "No visit yet today." %}</li>{% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'gym/vendor/html5-qrcode.min.js' %}"></script>
+<script>
+(function(){
+  var input = document.getElementById('ciInput'), form = document.getElementById('ciForm'), res = document.getElementById('result');
+  var T = { sessions: "{% translate 'sessions left'|escapejs %}", days: "{% translate 'days left'|escapejs %}", until: "{% translate 'until'|escapejs %}",
+            debt: "{% translate 'Debt'|escapejs %}", force: "{% translate 'Let in anyway'|escapejs %}", open: "{% translate 'Open profile'|escapejs %}",
+            renew: "{% translate 'Renew'|escapejs %}", granted: "{% translate 'ACCESS GRANTED'|escapejs %}", denied: "{% translate 'ACCESS DENIED'|escapejs %}",
+            noIns: "{% translate 'Insurance expired'|escapejs %}" };
+  var ctx;
+  function beep(ok){ try { ctx = ctx || new (window.AudioContext || window.webkitAudioContext)(); var o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.value = ok ? 880 : 220; o.type = ok ? 'sine' : 'square'; g.gain.value = .12; o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime + (ok ? .15 : .45)); } catch(e){} }
+
+  function send(params){
+    var fd = new FormData(); fd.append('csrfmiddlewaretoken', GYM.csrf);
+    Object.keys(params).forEach(function(k){ fd.append(k, params[k]); });
+    return fetch('{% url "checkin_api" %}', {method: 'POST', body: fd}).then(function(r){ return r.json(); }).then(show);
+  }
+  function show(d){
+    res.classList.remove('hidden');
+    beep(d.ok);
+    if (!d.found) { res.innerHTML = '<div class="ci-result no"><div class="state">✖ ' + escapeHtml(d.message) + '</div></div>'; return; }
+    var m = d.member, s = d.sub, info = '';
+    if (s) info = escapeHtml(s.plan) + ' · ' + (s.sessions_left !== null ? s.sessions_left + ' ' + T.sessions : T.until + ' ' + s.end + ' (' + Math.max(s.days_left, 0) + ' ' + T.days + ')');
+    var html = '<div class="ci-result ' + (d.ok ? 'ok' : 'no') + '">' + avatarHtml(m, 'avatar-lg') +
+      '<div style="flex:1;min-width:0"><div class="state">' + (d.ok ? '✔ ' + T.granted : '✖ ' + T.denied) + '</div>' +
+      '<div class="big">' + escapeHtml(m.name) + '</div><div class="muted">' + escapeHtml(m.code) + ' · ' + info + '</div>' +
+      '<div style="margin-top:6px">' + escapeHtml(d.message) + '</div>' +
+      (m.debt ? '<div style="margin-top:6px"><span class="badge badge-bad">' + T.debt + ': ' + escapeHtml(m.debt) + '</span></div>' : '') +
+      (!m.insurance_ok ? '<div style="margin-top:6px"><span class="badge badge-warn">' + T.noIns + '</span></div>' : '') +
+      (m.medical ? '<div class="alert alert-error" style="margin-top:8px">⚕ ' + escapeHtml(m.medical) + '</div>' : '') +
+      '<div class="row" style="margin-top:12px"><a class="btn btn-sm" href="/members/' + m.id + '/">' + T.open + '</a>' +
+      (!d.ok ? '<a class="btn btn-sm btn-primary" href="/members/' + m.id + '/#renew">' + T.renew + '</a><button class="btn btn-sm" id="forceBtn">' + T.force + '</button>' : '') +
+      '</div></div></div>';
+    res.innerHTML = html;
+    var fb = document.getElementById('forceBtn');
+    if (fb) fb.onclick = function(){ send({member_id: m.id, force: '1'}); };
+    if (d.ok) addRecent(m, d.time, s);
+    input.value = ''; input.focus();
+  }
+  function addRecent(m, time, s){
+    var nv = document.getElementById('noVisit'); if (nv) nv.remove();
+    var li = document.createElement('li');
+    li.innerHTML = '<a class="person grow" href="/members/' + m.id + '/">' + avatarHtml(m) + '<div><b>' + escapeHtml(m.name) + '</b><span>' + time + (s ? ' · ' + escapeHtml(s.plan) : '') + '</span></div></a><span class="badge badge-ok">✔</span>';
+    document.getElementById('recent').prepend(li);
+  }
+  // Enter = scanned code (USB scanners type the code then press Enter)
+  input.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') {
+      var list = form.querySelector('.ac-list');
+      var hl = list.querySelector('a.hl');
+      e.preventDefault(); e.stopImmediatePropagation();
+      var v = input.value.trim();
+      if (/^M?\d{3,}$/i.test(v) || !hl) { list.classList.add('hidden'); if (v) send({code: v}); }
+      else { list.classList.add('hidden'); hl.click(); }
+    }
+  }, true);
+  form.addEventListener('pick', function(e){ send({member_id: e.detail.id}); });
+  form.addEventListener('submit', function(e){ e.preventDefault(); });
+
+  // camera scanning (phone / webcam)
+  var scanner, reader = document.getElementById('reader'), last = '';
+  document.getElementById('camBtn').addEventListener('click', function(){
+    if (scanner) { scanner.stop().then(function(){ scanner = null; reader.classList.add('hidden'); }); return; }
+    reader.classList.remove('hidden');
+    scanner = new Html5Qrcode('reader');
+    scanner.start({facingMode: 'environment'}, {fps: 10, qrbox: 220}, function(code){
+      if (code === last) return; last = code; setTimeout(function(){ last = ''; }, 3000);
+      send({code: code});
+    }).catch(function(err){ alert(err); reader.classList.add('hidden'); scanner = null; });
+  });
+})();
+</script>
+{% endblock %}

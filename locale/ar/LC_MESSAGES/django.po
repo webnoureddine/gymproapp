@@ -1,0 +1,1292 @@
+#
+msgid ""
+msgstr ""
+"Language: ar\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+
+msgid "Page not found."
+msgstr "الصفحة غير موجودة."
+
+msgid "Access denied"
+msgstr "الدخول مرفوض"
+
+msgid "Your role does not allow this page. Ask the owner."
+msgstr "دورك لا يسمح بالوصول إلى هذه الصفحة. اطلب من المالك."
+
+msgid "Back to dashboard"
+msgstr "العودة إلى لوحة التحكم"
+
+msgid "Dashboard"
+msgstr "لوحة التحكم"
+
+msgid "Check-in"
+msgstr "تسجيل الحضور"
+
+msgid "Sell"
+msgstr "بيع"
+
+msgid "New member"
+msgstr "منخرط جديد"
+
+msgid "Active members"
+msgstr "المنخرطون النشطون"
+
+msgid "this month"
+msgstr "هذا الشهر"
+
+msgid "Expiring soon"
+msgstr "ينتهي قريبًا"
+
+msgid "expired"
+msgstr "منتهي"
+
+msgid "Visits today"
+msgstr "زيارات اليوم"
+
+msgid "check-ins"
+msgstr "دخول"
+
+msgid "Unpaid debts"
+msgstr "ديون غير مدفوعة"
+
+msgid "members"
+msgstr "منخرط"
+
+msgid "Revenue today"
+msgstr "مداخيل اليوم"
+
+msgid "Revenue this month"
+msgstr "مداخيل الشهر"
+
+msgid "Expenses this month"
+msgstr "مصاريف الشهر"
+
+msgid "Profit this month"
+msgstr "ربح الشهر"
+
+msgid "Revenue vs expenses (12 months)"
+msgstr "المداخيل مقابل المصاريف (12 شهرًا)"
+
+msgid "Reports"
+msgstr "التقارير"
+
+msgid "Expiring soon — remind them"
+msgstr "تنتهي قريبًا — ذكّرهم"
+
+msgid "See all"
+msgstr "عرض الكل"
+
+msgid "sessions left"
+msgstr "حصص متبقية"
+
+msgid "Renew"
+msgstr "تجديد"
+
+msgid "No subscription expires in the next days."
+msgstr "لا يوجد اشتراك ينتهي في الأيام القادمة."
+
+msgid "Visits (14 days)"
+msgstr "الزيارات (14 يومًا)"
+
+msgid "Today's check-ins"
+msgstr "دخول اليوم"
+
+msgid "Open"
+msgstr "فتح"
+
+msgid "No visit yet today."
+msgstr "لا توجد زيارة اليوم بعد."
+
+msgid "Low stock"
+msgstr "مخزون منخفض"
+
+msgid "Revenue"
+msgstr "المداخيل"
+
+msgid "Expenses"
+msgstr "المصاريف"
+
+msgid "Hello %(name)s 👋"
+msgstr "مرحبًا %(name)s 👋"
+
+msgid "%(d)s day left"
+msgid_plural "%(d)s days left"
+msgstr[0] "%(d)s أيام متبقية"
+msgstr[1] "%(d)s يوم متبقٍ"
+msgstr[2] "%(d)s أيام متبقية"
+msgstr[3] "%(d)s أيام متبقية"
+msgstr[4] "%(d)s أيام متبقية"
+msgstr[5] "%(d)s أيام متبقية"
+
+msgid "Sign in"
+msgstr "تسجيل الدخول"
+
+msgid "Manage your gym simply, from reception to accounting."
+msgstr "سيّر صالتك ببساطة، من الاستقبال إلى المحاسبة."
+
+msgid "Members, subscriptions and sessions"
+msgstr "المنخرطون، الاشتراكات والحصص"
+
+msgid "Fast check-in with QR card"
+msgstr "دخول سريع ببطاقة QR"
+
+msgid "Payments, debts and receipts in DA"
+msgstr "المدفوعات، الديون والوصولات بالدينار"
+
+msgid "Shop, stock, expenses and reports"
+msgstr "المتجر، المخزون، المصاريف والتقارير"
+
+msgid "Wrong username or password."
+msgstr "اسم المستخدم أو كلمة المرور غير صحيحة."
+
+msgid "Username"
+msgstr "اسم المستخدم"
+
+msgid "Password"
+msgstr "كلمة المرور"
+
+msgid "Receipt"
+msgstr "وصل"
+
+msgid "Print"
+msgstr "طباعة"
+
+msgid "Ticket 80mm"
+msgstr "تذكرة 80 مم"
+
+msgid "Back to member"
+msgstr "العودة إلى المنخرط"
+
+msgid "Back"
+msgstr "رجوع"
+
+msgid "Tel"
+msgstr "الهاتف"
+
+msgid "Date"
+msgstr "التاريخ"
+
+msgid "Member"
+msgstr "المنخرط"
+
+msgid "Total"
+msgstr "المجموع"
+
+msgid "sessions"
+msgstr "حصص"
+
+msgid "Discount"
+msgstr "تخفيض"
+
+msgid "Paid"
+msgstr "مدفوع"
+
+msgid "Method"
+msgstr "طريقة الدفع"
+
+msgid "Remaining to pay"
+msgstr "المبلغ المتبقي"
+
+msgid "Received by"
+msgstr "استلمه"
+
+msgid "Signature"
+msgstr "الإمضاء"
+
+msgid "Stamp"
+msgstr "الختم"
+
+msgid "Today"
+msgstr "اليوم"
+
+msgid "Yesterday"
+msgstr "أمس"
+
+msgid "This week"
+msgstr "هذا الأسبوع"
+
+msgid "This month"
+msgstr "هذا الشهر"
+
+msgid "Last month"
+msgstr "الشهر الماضي"
+
+msgid "This year"
+msgstr "هذه السنة"
+
+msgid "Apply"
+msgstr "تطبيق"
+
+msgid "Scan the member card, type the ID, or search by name."
+msgstr "امسح البطاقة، أدخل الرقم أو ابحث بالاسم."
+
+msgid "members today"
+msgstr "منخرط اليوم"
+
+msgid "refused"
+msgstr "مرفوض"
+
+msgid "Scan card or type ID / name…"
+msgstr "امسح البطاقة أو اكتب الرقم / الاسم…"
+
+msgid "Scan with camera"
+msgstr "المسح بالكاميرا"
+
+msgid "days left"
+msgstr "أيام متبقية"
+
+msgid "until"
+msgstr "إلى غاية"
+
+msgid "Debt"
+msgstr "دين"
+
+msgid "Let in anyway"
+msgstr "السماح بالدخول رغم ذلك"
+
+msgid "Open profile"
+msgstr "فتح الملف"
+
+msgid "ACCESS GRANTED"
+msgstr "الدخول مسموح"
+
+msgid "ACCESS DENIED"
+msgstr "الدخول مرفوض"
+
+msgid "Insurance expired"
+msgstr "التأمين منتهي"
+
+msgid "Report"
+msgstr "تقرير"
+
+msgid "Profit"
+msgstr "الربح"
+
+msgid "New members"
+msgstr "منخرطون جدد"
+
+msgid "renewals"
+msgstr "تجديدات"
+
+msgid "Daily revenue"
+msgstr "المداخيل اليومية"
+
+msgid "Revenue by type"
+msgstr "المداخيل حسب النوع"
+
+msgid "Revenue by method"
+msgstr "المداخيل حسب طريقة الدفع"
+
+msgid "Peak hours"
+msgstr "ساعات الذروة"
+
+msgid "visits"
+msgstr "زيارة"
+
+msgid "Visits by day"
+msgstr "الزيارات حسب اليوم"
+
+msgid "Best plans"
+msgstr "أفضل العروض"
+
+msgid "Expenses by category"
+msgstr "المصاريف حسب الفئة"
+
+msgid "Cash collected by staff"
+msgstr "المبالغ المحصلة حسب الموظف"
+
+msgid "Top products"
+msgstr "المنتجات الأكثر مبيعًا"
+
+msgid "Members"
+msgstr "المنخرطون"
+
+msgid "Money"
+msgstr "المالية"
+
+msgid "Payments"
+msgstr "المدفوعات"
+
+msgid "Debts"
+msgstr "الديون"
+
+msgid "Shop"
+msgstr "المتجر"
+
+msgid "Sales"
+msgstr "المبيعات"
+
+msgid "Products & stock"
+msgstr "المنتجات والمخزون"
+
+msgid "Management"
+msgstr "التسيير"
+
+msgid "Plans & prices"
+msgstr "العروض والأسعار"
+
+msgid "Staff"
+msgstr "الموظفون"
+
+msgid "Settings"
+msgstr "الإعدادات"
+
+msgid "Home"
+msgstr "الرئيسية"
+
+msgid "More"
+msgstr "المزيد"
+
+msgid "Log out"
+msgstr "تسجيل الخروج"
+
+msgid "Search a member (name, ID, phone)…"
+msgstr "ابحث عن منخرط (الاسم، الرقم، الهاتف)…"
+
+msgid "Dark / light mode"
+msgstr "الوضع الداكن / الفاتح"
+
+msgid "No result"
+msgstr "لا توجد نتائج"
+
+msgid "Trial: %(d)s days left"
+msgstr "فترة تجريبية: %(d)s يوم متبقٍ"
+
+msgid "Monthly, quarterly, yearly, session packs, women-only…"
+msgstr "شهري، فصلي، سنوي، بطاقات حصص، للنساء…"
+
+msgid "New activity"
+msgstr "نشاط جديد"
+
+msgid "New plan"
+msgstr "عرض جديد"
+
+msgid "Women"
+msgstr "نساء"
+
+msgid "Men"
+msgstr "رجال"
+
+msgid "Inactive"
+msgstr "غير نشط"
+
+msgid "subs."
+msgstr "اشتراك"
+
+msgid "valid"
+msgstr "صالح"
+
+msgid "days"
+msgstr "يوم"
+
+msgid "Edit"
+msgstr "تعديل"
+
+msgid "No plan yet. Create your first offer."
+msgstr "لا توجد عروض. أنشئ عرضك الأول."
+
+msgid "Activities"
+msgstr "الأنشطة"
+
+msgid "Delete this plan?"
+msgstr "حذف هذا العرض؟"
+
+msgid "new"
+msgstr "جديد"
+
+msgid "Cancel"
+msgstr "إلغاء"
+
+msgid "Save"
+msgstr "حفظ"
+
+msgid "Each employee has an account and a role."
+msgstr "لكل موظف حساب ودور."
+
+msgid "New account"
+msgstr "حساب جديد"
+
+msgid "Name"
+msgstr "الاسم"
+
+msgid "Role"
+msgstr "الدور"
+
+msgid "Phone"
+msgstr "الهاتف"
+
+msgid "Last login"
+msgstr "آخر دخول"
+
+msgid "Disabled"
+msgstr "معطّل"
+
+msgid "What each role can do"
+msgstr "صلاحيات كل دور"
+
+msgid "Owner"
+msgstr "المالك"
+
+msgid "Everything, including settings, staff, deleting payments."
+msgstr "كل شيء، بما في ذلك الإعدادات والموظفين وحذف المدفوعات."
+
+msgid "Manager"
+msgstr "المسيّر"
+
+msgid "Members, payments, plans, shop & stock, expenses, reports."
+msgstr "المنخرطون، المدفوعات، العروض، المتجر والمخزون، المصاريف، التقارير."
+
+msgid "Receptionist"
+msgstr "موظف الاستقبال"
+
+msgid "Members, check-in, payments, shop sales, debts."
+msgstr "المنخرطون، تسجيل الدخول، المدفوعات، مبيعات المتجر، الديون."
+
+msgid "Coach"
+msgstr "مدرب"
+
+msgid "View members and check-in only."
+msgstr "عرض المنخرطين وتسجيل الدخول فقط."
+
+msgid "License"
+msgstr "الترخيص"
+
+msgid "The saved key is not valid for this installation."
+msgstr "المفتاح المحفوظ غير صالح لهذا التثبيت."
+
+msgid ""
+"Your license has expired. Enter a new key to continue using the software."
+msgstr "انتهى ترخيصك. أدخل مفتاحًا جديدًا لمواصلة استخدام البرنامج."
+
+msgid "Installation ID (send it to your vendor)"
+msgstr "رقم التثبيت (أرسله إلى المورد)"
+
+msgid "Activate"
+msgstr "تفعيل"
+
+msgid "Ask the gym owner to activate the license."
+msgstr "اطلب من مالك الصالة تفعيل الترخيص."
+
+msgid "Licensed until %(d)s"
+msgstr "الترخيص صالح إلى غاية %(d)s"
+
+msgid "Free trial — %(n)s days left."
+msgstr "فترة تجريبية مجانية — %(n)s يوم متبقٍ."
+
+msgid "Download backup"
+msgstr "تنزيل نسخة احتياطية"
+
+msgid "Gym identity (shown on receipts & cards)"
+msgstr "هوية الصالة (تظهر في الوصولات والبطاقات)"
+
+msgid "Rules"
+msgstr "القواعد"
+
+msgid "Messages"
+msgstr "الرسائل"
+
+msgid "Members who still owe money (subscriptions or shop)."
+msgstr "المنخرطون الذين ما زالوا مدينين (اشتراكات أو متجر)."
+
+msgid "Total to collect"
+msgstr "المجموع الواجب تحصيله"
+
+msgid "Members with debt"
+msgstr "منخرطون مدينون"
+
+msgid "Status"
+msgstr "الحالة"
+
+msgid "Collect"
+msgstr "تحصيل"
+
+msgid "No debt. Well done!"
+msgstr "لا توجد ديون. أحسنت!"
+
+msgid "Search…"
+msgstr "بحث…"
+
+msgid "Total collected"
+msgstr "مجموع المحصّل"
+
+msgid "payments"
+msgstr "دفعة"
+
+msgid "All methods"
+msgstr "كل طرق الدفع"
+
+msgid "All types"
+msgstr "كل الأنواع"
+
+msgid "Type"
+msgstr "النوع"
+
+msgid "Amount"
+msgstr "المبلغ"
+
+msgid "Walk-in"
+msgstr "زبون عابر"
+
+msgid "No payment for this period."
+msgstr "لا توجد مدفوعات لهذه الفترة."
+
+msgid "Receipt, member, reference…"
+msgstr "الوصل، المنخرط، المرجع…"
+
+msgid "Delete this payment?"
+msgstr "حذف هذه الدفعة؟"
+
+msgid "Rent, electricity, salaries, equipment…"
+msgstr "الإيجار، الكهرباء، الأجور، المعدات…"
+
+msgid "Add expense"
+msgstr "إضافة مصروف"
+
+msgid "Description"
+msgstr "الوصف"
+
+msgid "Category"
+msgstr "الفئة"
+
+msgid "No expense for this period."
+msgstr "لا توجد مصاريف لهذه الفترة."
+
+msgid "By category"
+msgstr "حسب الفئة"
+
+msgid "Delete?"
+msgstr "حذف؟"
+
+msgid "results"
+msgstr "نتيجة"
+
+msgid "All"
+msgstr "الكل"
+
+msgid "Active"
+msgstr "نشط"
+
+msgid "Expired"
+msgstr "منتهي"
+
+msgid "Paused"
+msgstr "متوقف مؤقتًا"
+
+msgid "No subscription"
+msgstr "بدون اشتراك"
+
+msgid "With debt"
+msgstr "مدين"
+
+msgid "Gender"
+msgstr "الجنس"
+
+msgid "Activity"
+msgstr "النشاط"
+
+msgid "Newest"
+msgstr "الأحدث"
+
+msgid "Name A→Z"
+msgstr "الاسم أ←ي"
+
+msgid "Expiry date"
+msgstr "تاريخ الانتهاء"
+
+msgid "Archived"
+msgstr "مؤرشف"
+
+msgid "Plan"
+msgstr "العرض"
+
+msgid "End date"
+msgstr "تاريخ الانتهاء"
+
+msgid "sess."
+msgstr "حصة"
+
+msgid "No member found."
+msgstr "لم يتم العثور على أي منخرط."
+
+msgid "Add the first member"
+msgstr "إضافة أول منخرط"
+
+msgid "Name, ID, phone, ID card…"
+msgstr "الاسم، الرقم، الهاتف، بطاقة التعريف…"
+
+msgid "Health & emergency"
+msgstr "الصحة والطوارئ"
+
+msgid "Other"
+msgstr "أخرى"
+
+msgid "Add a subscription now"
+msgstr "إضافة اشتراك الآن"
+
+msgid "Webcam"
+msgstr "كاميرا"
+
+msgid "Take photo"
+msgstr "التقاط الصورة"
+
+msgid "Upload"
+msgstr "رفع"
+
+msgid "Card"
+msgstr "البطاقة"
+
+msgid "Total to pay"
+msgstr "المجموع الواجب دفعه"
+
+msgid "Member profile"
+msgstr "ملف المنخرط"
+
+msgid "This member is archived."
+msgstr "هذا المنخرط مؤرشف."
+
+msgid "Medical notes"
+msgstr "ملاحظات طبية"
+
+msgid "years"
+msgstr "سنة"
+
+msgid "since"
+msgstr "منذ"
+
+msgid "Current subscription"
+msgstr "الاشتراك الحالي"
+
+msgid "Resume"
+msgstr "استئناف"
+
+msgid "Pause"
+msgstr "إيقاف مؤقت"
+
+msgid "Days +/-"
+msgstr "أيام +/-"
+
+msgid "Sessions left"
+msgstr "الحصص المتبقية"
+
+msgid "Days left"
+msgstr "الأيام المتبقية"
+
+msgid "Paused since"
+msgstr "متوقف منذ"
+
+msgid "Pay"
+msgstr "دفع"
+
+msgid "No subscription yet."
+msgstr "لا يوجد اشتراك بعد."
+
+msgid "Add a subscription"
+msgstr "إضافة اشتراك"
+
+msgid "Subscriptions"
+msgstr "الاشتراكات"
+
+msgid "Visits"
+msgstr "الزيارات"
+
+msgid "Purchases"
+msgstr "المشتريات"
+
+msgid "Period"
+msgstr "الفترة"
+
+msgid "Other payment (insurance, fee…)"
+msgstr "دفعة أخرى (تأمين، رسوم…)"
+
+msgid "Entered"
+msgstr "دخل"
+
+msgid "Refused"
+msgstr "مرفوض"
+
+msgid "Total debt"
+msgstr "مجموع الدين"
+
+msgid "Information"
+msgstr "معلومات"
+
+msgid "Visits this month"
+msgstr "زيارات هذا الشهر"
+
+msgid "Insurance"
+msgstr "التأمين"
+
+msgid "Birth date"
+msgstr "تاريخ الميلاد"
+
+msgid "Second phone"
+msgstr "هاتف ثانٍ"
+
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+msgid "Address"
+msgstr "العنوان"
+
+msgid "ID card number"
+msgstr "رقم بطاقة التعريف"
+
+msgid "Blood type"
+msgstr "فصيلة الدم"
+
+msgid "Emergency"
+msgstr "الطوارئ"
+
+msgid "Restore"
+msgstr "استعادة"
+
+msgid "Archive"
+msgstr "أرشفة"
+
+msgid "Delete"
+msgstr "حذف"
+
+msgid "New subscription / renewal"
+msgstr "اشتراك جديد / تجديد"
+
+msgid "Save & print"
+msgstr "حفظ وطباعة"
+
+msgid "Record a payment"
+msgstr "تسجيل دفعة"
+
+msgid "Other payment"
+msgstr "دفعة أخرى"
+
+msgid "Add or remove days"
+msgstr "إضافة أو إنقاص أيام"
+
+msgid "Days (e.g. 7 or -3)"
+msgstr "الأيام (مثال: 7 أو 3-)"
+
+msgid "Useful for a gift, a closure (Ramadan, holidays) or a correction."
+msgstr "مفيد للهدايا، أو الإغلاق (رمضان، العطل) أو للتصحيح."
+
+msgid "Force entry anyway?"
+msgstr "السماح بالدخول رغم ذلك؟"
+
+msgid "Pause this subscription? Remaining days are kept."
+msgstr "إيقاف هذا الاشتراك مؤقتًا؟ الأيام المتبقية محفوظة."
+
+msgid "Cancel this subscription?"
+msgstr "إلغاء هذا الاشتراك؟"
+
+msgid "Delete permanently this member and all his history?"
+msgstr "حذف هذا المنخرط وكل سجله نهائيًا؟"
+
+msgid "fees (registration / insurance) paid separately"
+msgstr "رسوم (تسجيل / تأمين) تُدفع على حدة"
+
+msgid "Click products or scan a barcode."
+msgstr "انقر على المنتجات أو امسح الرمز الشريطي."
+
+msgid "No product yet."
+msgstr "لا توجد منتجات بعد."
+
+msgid "Add products"
+msgstr "إضافة منتجات"
+
+msgid "Cart"
+msgstr "السلة"
+
+msgid "Cart is empty"
+msgstr "السلة فارغة"
+
+msgid "Member (optional — allows paying later)"
+msgstr "المنخرط (اختياري — يسمح بالدفع لاحقًا)"
+
+msgid "Amount paid"
+msgstr "المبلغ المدفوع"
+
+msgid "Print receipt"
+msgstr "طباعة الوصل"
+
+msgid "Validate sale"
+msgstr "تأكيد البيع"
+
+msgid "Stock"
+msgstr "المخزون"
+
+msgid "Search product or scan barcode…"
+msgstr "ابحث عن منتج أو امسح الرمز الشريطي…"
+
+msgid "Walk-in customer"
+msgstr "زبون عابر"
+
+msgid "New sale"
+msgstr "بيع جديد"
+
+msgid "Sales total"
+msgstr "مجموع المبيعات"
+
+msgid "Gross margin"
+msgstr "الهامش الإجمالي"
+
+msgid "Products"
+msgstr "المنتجات"
+
+msgid "Customer"
+msgstr "الزبون"
+
+msgid "No sale for this period."
+msgstr "لا توجد مبيعات لهذه الفترة."
+
+msgid "Stock value (purchase price)"
+msgstr "قيمة المخزون (سعر الشراء)"
+
+msgid "New product"
+msgstr "منتج جديد"
+
+msgid "Low stock only"
+msgstr "المخزون المنخفض فقط"
+
+msgid "Product"
+msgstr "المنتج"
+
+msgid "Purchase price"
+msgstr "سعر الشراء"
+
+msgid "Selling price"
+msgstr "سعر البيع"
+
+msgid "No product yet (protein, water, creatine, gloves…)."
+msgstr "لا توجد منتجات (بروتين، ماء، كرياتين، قفازات…)."
+
+msgid "Stock movement"
+msgstr "حركة المخزون"
+
+msgid "Quantity (+ received, - lost/broken)"
+msgstr "الكمية (+ مستلمة، - ضائعة/تالفة)"
+
+msgid "Name, barcode, category…"
+msgstr "الاسم، الرمز الشريطي، الفئة…"
+
+msgid "Gym name"
+msgstr "اسم الصالة"
+
+msgid "Logo"
+msgstr "الشعار"
+
+msgid "Slogan"
+msgstr "الشعار النصي"
+
+msgid "City / Wilaya"
+msgstr "المدينة / الولاية"
+
+msgid "Currency"
+msgstr "العملة"
+
+msgid "Warn X days before expiry"
+msgstr "التنبيه قبل الانتهاء بـ X أيام"
+
+msgid "Annual insurance fee"
+msgstr "رسوم التأمين السنوي"
+
+msgid "Registration fee (new members)"
+msgstr "رسوم التسجيل (منخرطون جدد)"
+
+msgid "Allow entry when member has debt"
+msgstr "السماح بالدخول إذا كان المنخرط مدينًا"
+
+msgid "Allow entry when subscription expired"
+msgstr "السماح بالدخول إذا انتهى الاشتراك"
+
+msgid "Women hours (shown on cards)"
+msgstr "أوقات النساء (تظهر على البطاقات)"
+
+msgid "Receipt footer"
+msgstr "تذييل الوصل"
+
+msgid "WhatsApp reminder message"
+msgstr "رسالة التذكير عبر واتساب"
+
+msgid "Variables: {name} {gym} {date} {debt}"
+msgstr "المتغيرات: {name} {gym} {date} {debt}"
+
+msgid "License key"
+msgstr "مفتاح الترخيص"
+
+msgid "Installation ID"
+msgstr "رقم التثبيت"
+
+msgid "Gym settings"
+msgstr "إعدادات الصالة"
+
+msgid "Color"
+msgstr "اللون"
+
+msgid "By duration (days)"
+msgstr "حسب المدة (أيام)"
+
+msgid "By number of sessions"
+msgstr "حسب عدد الحصص"
+
+msgid "Everyone"
+msgstr "الجميع"
+
+msgid "Duration (days)"
+msgstr "المدة (أيام)"
+
+msgid "Number of sessions"
+msgstr "عدد الحصص"
+
+msgid "Only for session plans"
+msgstr "فقط لعروض الحصص"
+
+msgid "Price"
+msgstr "السعر"
+
+msgid "For"
+msgstr "لـ"
+
+msgid "Plans"
+msgstr "العروض"
+
+msgid "Male"
+msgstr "ذكر"
+
+msgid "Female"
+msgstr "أنثى"
+
+msgid "Member ID"
+msgstr "رقم المنخرط"
+
+msgid "First name"
+msgstr "الاسم"
+
+msgid "Last name"
+msgstr "اللقب"
+
+msgid "Photo"
+msgstr "الصورة"
+
+msgid "Emergency contact"
+msgstr "جهة الاتصال في الطوارئ"
+
+msgid "Emergency phone"
+msgstr "هاتف الطوارئ"
+
+msgid "Notes"
+msgstr "ملاحظات"
+
+msgid "Insurance valid until"
+msgstr "التأمين صالح إلى غاية"
+
+msgid "Join date"
+msgstr "تاريخ التسجيل"
+
+msgid "Start date"
+msgstr "تاريخ البداية"
+
+msgid "Subscription"
+msgstr "اشتراك"
+
+msgid "Barcode"
+msgstr "الرمز الشريطي"
+
+msgid "Low stock alert"
+msgstr "تنبيه المخزون المنخفض"
+
+msgid "Cash"
+msgstr "نقدًا"
+
+msgid "Bank transfer"
+msgstr "تحويل بنكي"
+
+msgid "Cheque"
+msgstr "صك"
+
+msgid "Registration fee"
+msgstr "رسوم التسجيل"
+
+msgid "Shop sale"
+msgstr "بيع المتجر"
+
+msgid "Receipt number"
+msgstr "رقم الوصل"
+
+msgid "Reference"
+msgstr "المرجع"
+
+msgid "Note"
+msgstr "ملاحظة"
+
+msgid "Payment"
+msgstr "دفعة"
+
+msgid "Amount paid now"
+msgstr "المبلغ المدفوع الآن"
+
+msgid "Add registration fee"
+msgstr "إضافة رسوم التسجيل"
+
+msgid "Add annual insurance"
+msgstr "إضافة التأمين السنوي"
+
+msgid "Or new category"
+msgstr "أو فئة جديدة"
+
+msgid "Leave empty to keep the current password"
+msgstr "اتركه فارغًا للاحتفاظ بكلمة المرور الحالية"
+
+msgid "Password is required for a new account"
+msgstr "كلمة المرور إلزامية لحساب جديد"
+
+msgid "Member %(name)s created."
+msgstr "تم إنشاء المنخرط %(name)s."
+
+msgid "Changes saved."
+msgstr "تم حفظ التعديلات."
+
+msgid "Member archived."
+msgstr "تمت أرشفة المنخرط."
+
+msgid "Member restored."
+msgstr "تمت استعادة المنخرط."
+
+msgid "Only the owner can delete a member permanently."
+msgstr "المالك فقط يمكنه حذف منخرط نهائيًا."
+
+msgid "Member deleted."
+msgstr "تم حذف المنخرط."
+
+msgid "Remaining to pay: %(amount)s"
+msgstr "المبلغ المتبقي: %(amount)s"
+
+msgid "Subscription %(plan)s added until %(date)s."
+msgstr "تمت إضافة اشتراك %(plan)s إلى غاية %(date)s."
+
+msgid "Payment recorded."
+msgstr "تم تسجيل الدفعة."
+
+msgid "Subscription paused. Days will be added back when you resume it."
+msgstr "تم إيقاف الاشتراك مؤقتًا. ستُضاف الأيام عند الاستئناف."
+
+msgid "Subscription resumed. New end date: %(date)s"
+msgstr "تم استئناف الاشتراك. تاريخ الانتهاء الجديد: %(date)s"
+
+msgid "You are not allowed to do this."
+msgstr "غير مسموح لك بالقيام بهذا."
+
+msgid "Subscription cancelled."
+msgstr "تم إلغاء الاشتراك."
+
+msgid "End date changed to %(date)s"
+msgstr "تم تغيير تاريخ الانتهاء إلى %(date)s"
+
+msgid "Only the owner can delete a payment."
+msgstr "المالك فقط يمكنه حذف دفعة."
+
+msgid "Payment deleted."
+msgstr "تم حذف الدفعة."
+
+msgid "Expense added."
+msgstr "تمت إضافة المصروف."
+
+msgid "Expense deleted."
+msgstr "تم حذف المصروف."
+
+msgid "Invalid data"
+msgstr "بيانات غير صالحة"
+
+msgid "Sale recorded."
+msgstr "تم تسجيل البيع."
+
+msgid "Product saved."
+msgstr "تم حفظ المنتج."
+
+msgid "Stock updated for %(name)s."
+msgstr "تم تحديث مخزون %(name)s."
+
+msgid "Account saved."
+msgstr "تم حفظ الحساب."
+
+msgid "Staff account"
+msgstr "حساب موظف"
+
+msgid "Settings saved."
+msgstr "تم حفظ الإعدادات."
+
+msgid "This license key is not valid."
+msgstr "مفتاح الترخيص هذا غير صالح."
+
+msgid "This key was made for another installation."
+msgstr "هذا المفتاح خاص بتثبيت آخر."
+
+msgid "License activated until %(date)s."
+msgstr "تم تفعيل الترخيص إلى غاية %(date)s."
+
+msgid "Plan saved."
+msgstr "تم حفظ العرض."
+
+msgid "Activity saved."
+msgstr "تم حفظ النشاط."
+
+msgid ""
+"This plan is used by subscriptions, it was deactivated instead of deleted."
+msgstr "هذا العرض مستعمل في اشتراكات، تم تعطيله بدل حذفه."
+
+msgid "Plan deleted."
+msgstr "تم حذف العرض."
+
+msgid "Sun"
+msgstr "الأحد"
+
+msgid "Mon"
+msgstr "الإثنين"
+
+msgid "Tue"
+msgstr "الثلاثاء"
+
+msgid "Wed"
+msgstr "الأربعاء"
+
+msgid "Thu"
+msgstr "الخميس"
+
+msgid "Fri"
+msgstr "الجمعة"
+
+msgid "Sat"
+msgstr "السبت"
+
+msgid "By type"
+msgstr "حسب النوع"
+
+msgid "By method"
+msgstr "حسب طريقة الدفع"
+
+msgid "By plan"
+msgstr "حسب العرض"
+
+msgid "Entry forced by staff"
+msgstr "دخول مسموح من طرف الموظف"
+
+msgid "Member not found"
+msgstr "المنخرط غير موجود"
+
+msgid "Welcome!"
+msgstr "مرحبًا!"
+
+msgid "Language"
+msgstr "اللغة"
+
+msgid "Upcoming"
+msgstr "قادم"
+
+msgid "Cancelled"
+msgstr "ملغى"
+
+msgid "Member is archived"
+msgstr "المنخرط مؤرشف"
+
+msgid "Subscription is paused"
+msgstr "الاشتراك متوقف مؤقتًا"
+
+msgid "Subscription has not started yet"
+msgstr "الاشتراك لم يبدأ بعد"
+
+msgid "Subscription expired"
+msgstr "الاشتراك منتهي"
+
+msgid "Unpaid balance"
+msgstr "رصيد غير مدفوع"
+
+msgid "Already checked in today"
+msgstr "دخل اليوم مسبقًا"
+
+msgid "Install app"
+msgstr "تثبيت التطبيق"
+
+msgid "Install the app on this device"
+msgstr "تثبيت التطبيق على هذا الجهاز"
+
+msgid ""
+"Your free trial ends in %(d)s day. Contact us to keep using the software."
+msgid_plural ""
+"Your free trial ends in %(d)s days. Contact us to keep using the software."
+msgstr[0] ""
+"تنتهي فترتك التجريبية المجانية خلال %(d)s أيام. اتصل بنا لمواصلة استعمال "
+"البرنامج."
+msgstr[1] ""
+"تنتهي فترتك التجريبية المجانية خلال %(d)s يوم. اتصل بنا لمواصلة استعمال "
+"البرنامج."
+msgstr[2] ""
+"تنتهي فترتك التجريبية المجانية خلال %(d)s أيام. اتصل بنا لمواصلة استعمال "
+"البرنامج."
+msgstr[3] ""
+"تنتهي فترتك التجريبية المجانية خلال %(d)s أيام. اتصل بنا لمواصلة استعمال "
+"البرنامج."
+msgstr[4] ""
+"تنتهي فترتك التجريبية المجانية خلال %(d)s أيام. اتصل بنا لمواصلة استعمال "
+"البرنامج."
+msgstr[5] ""
+"تنتهي فترتك التجريبية المجانية خلال %(d)s أيام. اتصل بنا لمواصلة استعمال "
+"البرنامج."
+
+msgid ""
+"Your subscription ends in %(d)s day. Renew it to avoid any interruption."
+msgid_plural ""
+"Your subscription ends in %(d)s days. Renew it to avoid any interruption."
+msgstr[0] "ينتهي اشتراكك خلال %(d)s أيام. جدّده لتفادي أي انقطاع."
+msgstr[1] "ينتهي اشتراكك خلال %(d)s يوم. جدّده لتفادي أي انقطاع."
+msgstr[2] "ينتهي اشتراكك خلال %(d)s أيام. جدّده لتفادي أي انقطاع."
+msgstr[3] "ينتهي اشتراكك خلال %(d)s أيام. جدّده لتفادي أي انقطاع."
+msgstr[4] "ينتهي اشتراكك خلال %(d)s أيام. جدّده لتفادي أي انقطاع."
+msgstr[5] "ينتهي اشتراكك خلال %(d)s أيام. جدّده لتفادي أي انقطاع."
+
+msgid "Your access has been suspended"
+msgstr "تم تعليق وصولك"
+
+msgid "License check needed"
+msgstr "يجب التحقق من الترخيص"
+
+msgid "Your free trial / subscription has ended"
+msgstr "انتهت فترتك التجريبية / اشتراكك"
+
+msgid "Your license has expired"
+msgstr "انتهى ترخيصك"
+
+msgid ""
+"Your data is safe. Contact us to activate your subscription and continue "
+"using GymPro DZ."
+msgstr "بياناتك محفوظة. اتصل بنا لتفعيل اشتراكك ومواصلة استعمال GymPro DZ."
+
+msgid "Check again"
+msgstr "إعادة التحقق"
+
+msgid "Download a copy of my data"
+msgstr "تنزيل نسخة من بياناتي"
+
+msgid "Last check"
+msgstr "آخر تحقق"
+
+msgid "Contact the vendor"
+msgstr "اتصل بالمورد"
+
+msgid "Activation key (offline)"
+msgstr "مفتاح التفعيل (بدون إنترنت)"
+
+msgid ""
+"This computer has not been able to check its license for several days. "
+"Connect it to the internet and press “Check again”."
+msgstr ""
+"لم يتمكن هذا الحاسوب من التحقق من ترخيصه منذ عدة أيام. اتصل بالإنترنت ثم "
+"اضغط «إعادة التحقق»."
+
+msgid "License checked."
+msgstr "تم التحقق من الترخيص."
+
+msgid "Could not reach the license server. Check the internet connection."
+msgstr "تعذر الاتصال بخادم التراخيص. تحقق من اتصال الإنترنت."
+
+msgid ""
+"Hello, I want to activate GymPro DZ. Gym: %(gym)s — Installation ID: %(id)s"
+msgstr ""
+"السلام عليكم، أريد تفعيل GymPro DZ. الصالة: %(gym)s — رقم التثبيت: %(id)s"

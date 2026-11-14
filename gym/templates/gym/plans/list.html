@@ -1,0 +1,35 @@
+{% extends "gym/base.html" %}{% load i18n gym_tags %}
+{% block title %}{% translate "Plans & prices" %}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>{% translate "Plans & prices" %}</h1><div class="muted small">{% translate "Monthly, quarterly, yearly, session packs, women-only…" %}</div></div>
+  <div class="actions">
+    <a class="btn" href="{% url 'activity_create' %}">{% icon "dumbbell" 18 %} <span class="lbl">{% translate "New activity" %}</span></a>
+    <a class="btn btn-primary" href="{% url 'plan_create' %}">{% icon "plus" 18 %} <span class="lbl">{% translate "New plan" %}</span></a>
+  </div>
+</div>
+<div class="grid g-main">
+  <div class="grid g-2" style="align-content:start">
+    {% for p in plans %}
+    <div class="card card-pad" style="{% if not p.is_active %}opacity:.55{% endif %}">
+      <div class="row between"><div class="row" style="gap:8px">{% if p.activity %}<span class="badge" style="background:{{ p.activity.color }}22;color:{{ p.activity.color }}">{{ p.activity.name }}</span>{% endif %}
+        {% if p.gender == 'F' %}<span class="badge badge-info">♀ {% translate "Women" %}</span>{% elif p.gender == 'M' %}<span class="badge badge-muted">♂ {% translate "Men" %}</span>{% endif %}
+        {% if not p.is_active %}<span class="badge badge-muted">{% translate "Inactive" %}</span>{% endif %}</div>
+        <span class="small muted">{{ p.n }} {% translate "subs." %}</span></div>
+      <h2 style="margin-top:10px">{{ p.name }}</h2>
+      <div class="big-num" style="color:var(--primary)">{{ p.price|money }}</div>
+      <div class="muted small">{% if p.is_sessions %}{{ p.sessions }} {% translate "sessions" %} · {% translate "valid" %} {{ p.duration_days }} {% translate "days" %}{% else %}{{ p.duration_days }} {% translate "days" %}{% endif %}</div>
+      {% if p.description %}<p class="small" style="margin:8px 0 0">{{ p.description }}</p>{% endif %}
+      <div class="row" style="margin-top:12px">
+        <a class="btn btn-sm" href="{% url 'plan_edit' p.pk %}">{% icon "edit" 14 %} {% translate "Edit" %}</a>
+        <form method="post" action="{% url 'plan_delete' p.pk %}" data-confirm="{% translate 'Delete this plan?' %}">{% csrf_token %}<button class="btn btn-sm btn-danger">{% icon "trash" 14 %}</button></form>
+      </div>
+    </div>
+    {% empty %}<div class="card empty" style="grid-column:1/-1">{% icon "card" 36 %}<div>{% translate "No plan yet. Create your first offer." %}</div></div>{% endfor %}
+  </div>
+  <div class="card" style="align-self:start">
+    <div class="card-head"><h2>{% translate "Activities" %}</h2></div>
+    <ul class="list">{% for a in activities %}<li><span style="width:12px;height:12px;border-radius:4px;background:{{ a.color }}"></span><span class="grow">{{ a.name }}</span><span class="small muted">{{ a.n }}</span><a class="btn btn-sm btn-icon" href="{% url 'activity_edit' a.pk %}">{% icon "edit" 14 %}</a></li>{% empty %}<li class="empty small">—</li>{% endfor %}</ul>
+  </div>
+</div>
+{% endblock %}

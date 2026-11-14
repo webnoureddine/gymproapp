@@ -1,0 +1,21 @@
+{% extends "gym/base.html" %}{% load i18n gym_tags %}
+{% block title %}{% translate "Sales" %}{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>{% translate "Sales" %}</h1></div><div class="actions"><a class="btn btn-primary" href="{% url 'pos' %}">{% icon "cart" 18 %} <span class="lbl">{% translate "New sale" %}</span></a></div></div>
+{% include "gym/_period.html" %}
+<div class="grid g-2" style="margin-bottom:16px">
+  <div class="card kpi"><div class="ic ic-green">{% icon "cart" 22 %}</div><div><div class="lbl">{% translate "Sales total" %}</div><div class="val">{{ total|money }}</div></div></div>
+  {% if can.reports %}<div class="card kpi"><div class="ic ic-blue">{% icon "trending" 22 %}</div><div><div class="lbl">{% translate "Gross margin" %}</div><div class="val">{{ profit|money }}</div></div></div>{% endif %}
+</div>
+<div class="card"><div class="table-wrap"><table class="table responsive">
+  <thead><tr><th>N°</th><th>{% translate "Date" %}</th><th>{% translate "Products" %}</th><th>{% translate "Customer" %}</th><th class="right">{% translate "Total" %}</th><th></th></tr></thead>
+  <tbody>{% for s in page.object_list %}<tr>
+    <td class="td-main"><b>{{ s.number }}</b></td>
+    <td data-label="{% translate 'Date' %}" class="nowrap">{{ s.created_at|date:"d/m/Y H:i" }}</td>
+    <td data-label="{% translate 'Products' %}">{% for i in s.items.all %}{{ i.quantity }}× {{ i.product_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+    <td data-label="{% translate 'Customer' %}">{% if s.member %}<a href="{% url 'member_detail' s.member_id %}">{{ s.member.full_name }}</a>{% else %}<span class="muted">{% translate "Walk-in" %}</span>{% endif %}</td>
+    <td data-label="{% translate 'Total' %}" class="right nowrap"><b>{{ s.total|money }}</b>{% if s.due > 0 %} <span class="badge badge-bad">-{{ s.due|money }}</span>{% endif %}</td>
+    <td class="right">{% with p=s.payments.all|first %}{% if p %}<a class="btn btn-sm btn-icon" target="_blank" href="{% url 'receipt' p.pk %}">{% icon "print" 14 %}</a>{% endif %}{% endwith %}</td>
+  </tr>{% empty %}<tr><td colspan="6"><div class="empty">{% icon "tag" 36 %}<div>{% translate "No sale for this period." %}</div></div></td></tr>{% endfor %}</tbody>
+</table></div></div>
+{% endblock %}

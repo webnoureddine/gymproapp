@@ -1,0 +1,117 @@
+{% extends "gym/base.html" %}{% load i18n static gym_tags %}
+{% block title %}{% translate "Dashboard" %}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>{% blocktranslate with name=request.user.first_name|default:request.user.username %}Hello {{ name }} 👋{% endblocktranslate %}</h1>
+    <div class="muted small">{% now "l j F Y" %}</div>
+  </div>
+  <div class="actions">
+    <a href="{% url 'checkin' %}" class="btn">{% icon "scan" 18 %} <span class="lbl">{% translate "Check-in" %}</span></a>
+    {% if can.shop %}<a href="{% url 'pos' %}" class="btn">{% icon "cart" 18 %} <span class="lbl">{% translate "Sell" %}</span></a>{% endif %}
+    <a href="{% url 'member_create' %}" class="btn btn-primary">{% icon "user-plus" 18 %} <span class="lbl">{% translate "New member" %}</span></a>
+  </div>
+</div>
+
+<div class="grid g-4" style="margin-bottom:16px">
+  <a class="card kpi" href="{% url 'member_list' %}?status=active">
+    <div class="ic ic-green">{% icon "users" 22 %}</div>
+    <div><div class="lbl">{% translate "Active members" %}</div><div class="val">{{ counts.active|add:counts.expiring }}</div>
+    <div class="sub">+{{ new_members_month }} {% translate "this month" %}</div></div>
+  </a>
+  <a class="card kpi" href="{% url 'member_list' %}?status=expiring&sort=end">
+    <div class="ic ic-amber">{% icon "clock" 22 %}</div>
+    <div><div class="lbl">{% translate "Expiring soon" %}</div><div class="val">{{ counts.expiring }}</div>
+    <div class="sub">{{ counts.expired }} {% translate "expired" %}</div></div>
+  </a>
+  <a class="card kpi" href="{% url 'checkin' %}">
+    <div class="ic ic-blue">{% icon "scan" 22 %}</div>
+    <div><div class="lbl">{% translate "Visits today" %}</div><div class="val">{{ today_checkins }}</div>
+    <div class="sub">{% translate "check-ins" %}</div></div>
+  </a>
+  <a class="card kpi" href="{% if can.debts %}{% url 'debt_list' %}{% else %}#{% endif %}">
+    <div class="ic ic-red">{% icon "alert" 22 %}</div>
+    <div><div class="lbl">{% translate "Unpaid debts" %}</div><div class="val">{{ total_debt|money }}</div>
+    <div class="sub">{{ debtors }} {% translate "members" %}</div></div>
+  </a>
+</div>
+
+{% if can.reports %}
+<div class="grid g-4" style="margin-bottom:16px">
+  <div class="card kpi"><div class="ic ic-green">{% icon "wallet" 22 %}</div><div><div class="lbl">{% translate "Revenue today" %}</div><div class="val">{{ today_revenue|money }}</div></div></div>
+  <div class="card kpi"><div class="ic ic-green">{% icon "trending" 22 %}</div><div><div class="lbl">{% translate "Revenue this month" %}</div><div class="val">{{ month_revenue|money }}</div></div></div>
+  <div class="card kpi"><div class="ic ic-amber">{% icon "receipt" 22 %}</div><div><div class="lbl">{% translate "Expenses this month" %}</div><div class="val">{{ month_expenses|money }}</div></div></div>
+  <div class="card kpi"><div class="ic {% if month_profit < 0 %}ic-red{% else %}ic-blue{% endif %}">{% icon "chart" 22 %}</div><div><div class="lbl">{% translate "Profit this month" %}</div><div class="val">{{ month_profit|money }}</div></div></div>
+</div>
+{% endif %}
+
+<div class="grid g-main">
+  <div class="stack">
+    {% if can.reports %}
+    <div class="card">
+      <div class="card-head"><h2>{% translate "Revenue vs expenses (12 months)" %}</h2><a href="{% url 'reports' %}" class="small">{% translate "Reports" %} <span class="flip">→</span></a></div>
+      <div class="card-body" style="height:280px"><canvas id="revChart"></canvas></div>
+    </div>
+    {% endif %}
+    <div class="card">
+      <div class="card-head"><h2>{% translate "Expiring soon — remind them" %}</h2><a href="{% url 'member_list' %}?status=expiring&sort=end" class="small">{% translate "See all" %} <span class="flip">→</span></a></div>
+      {% if expiring %}
+      <ul class="list">
+        {% for m in expiring %}{% with s=m.current_subscription %}
+        <li>
+          <a class="person grow" href="{% url 'member_detail' m.pk %}">
+            <div class="avatar">{% if m.photo %}<img src="{{ m.photo.url }}" alt="">{% else %}{{ m.initials }}{% endif %}</div>
+            <div style="min-width:0"><b>{{ m.full_name }}</b><span>{{ s.plan_name }} · {% if s.sessions_left is not None %}{{ s.sessions_left }} {% translate "sessions left" %}{% else %}{% blocktranslate count d=s.days_left %}{{ d }} day left{% plural %}{{ d }} days left{% endblocktranslate %}{% endif %}</span></div>
+          </a>
+          {% if m.phone %}<a class="btn btn-wa btn-sm" target="_blank" rel="noopener" href="{% wa_link m gym.whatsapp_template gym.name s.end_date|date:'d/m/Y' %}">{% icon "message" 16 %} <span class="hide-sm">WhatsApp</span></a>{% endif %}
+          <a class="btn btn-sm" href="{% url 'member_detail' m.pk %}#renew">{% icon "refresh" 16 %} <span class="hide-sm">{% translate "Renew" %}</span></a>
+        </li>
+        {% endwith %}{% endfor %}
+      </ul>
+      {% else %}<div class="empty">{% icon "check" 32 %}<div>{% translate "No subscription expires in the next days." %}</div></div>{% endif %}
+    </div>
+  </div>
+
+  <div class="stack">
+    <div class="card">
+      <div class="card-head"><h2>{% translate "Visits (14 days)" %}</h2></div>
+      <div class="card-body" style="height:180px"><canvas id="ciChart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><h2>{% translate "Today's check-ins" %}</h2><a href="{% url 'checkin' %}" class="small">{% translate "Open" %} <span class="flip">→</span></a></div>
+      {% if recent_checkins %}<ul class="list">
+        {% for c in recent_checkins %}<li>
+          <a class="person grow" href="{% url 'member_detail' c.member_id %}">
+            <div class="avatar">{% if c.member.photo %}<img src="{{ c.member.photo.url }}" alt="">{% else %}{{ c.member.initials }}{% endif %}</div>
+            <div><b>{{ c.member.full_name }}</b><span>{{ c.at|time:"H:i" }}</span></div>
+          </a>
+          {% if c.allowed %}<span class="badge badge-ok">{% icon "check" 12 %}</span>{% else %}<span class="badge badge-bad">{% icon "x" 12 %}</span>{% endif %}
+        </li>{% endfor %}
+      </ul>{% else %}<div class="empty small">{% translate "No visit yet today." %}</div>{% endif %}
+    </div>
+    {% if low_stock and can.shop_manage %}
+    <div class="card">
+      <div class="card-head"><h2>{% translate "Low stock" %}</h2><a href="{% url 'product_list' %}?low=1" class="small">{% translate "See all" %} <span class="flip">→</span></a></div>
+      <ul class="list">{% for p in low_stock %}<li><span class="grow">{{ p.name }}</span><span class="badge {% if p.stock <= 0 %}badge-bad{% else %}badge-warn{% endif %}">{{ p.stock }}</span></li>{% endfor %}</ul>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'gym/vendor/chart.umd.min.js' %}"></script>
+<script>
+setupChart();
+var C = chartColors();
+{% if can.reports %}
+var rev = {{ rev_chart|safe }};
+new Chart(document.getElementById('revChart'), {type: 'bar', data: {labels: rev.labels, datasets: [
+  {label: "{% translate 'Revenue'|escapejs %}", data: rev.revenue, backgroundColor: C.primary, borderRadius: 6},
+  {label: "{% translate 'Expenses'|escapejs %}", data: rev.expenses, backgroundColor: '#f59e0b', borderRadius: 6}]},
+  options: {plugins: {tooltip: {callbacks: {label: function(c){return c.dataset.label + ': ' + money(c.raw);}}}}, scales: {y: {ticks: {callback: function(v){return v >= 1000 ? (v/1000)+'k' : v;}}}}}});
+{% endif %}
+var ci = {{ ci_chart|safe }};
+new Chart(document.getElementById('ciChart'), {type: 'line', data: {labels: ci.labels, datasets: [{data: ci.values, borderColor: C.primary, backgroundColor: 'rgba(14,159,110,.12)', fill: true, tension: .35, pointRadius: 2}]},
+  options: {plugins: {legend: {display: false}}, scales: {y: {beginAtZero: true, ticks: {precision: 0}}}}});
+</script>
+{% endblock %}

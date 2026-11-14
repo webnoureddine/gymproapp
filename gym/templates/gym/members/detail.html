@@ -1,0 +1,190 @@
+{% extends "gym/base.html" %}{% load i18n gym_tags %}
+{% block title %}{{ m.full_name }}{% endblock %}
+{% block content %}
+{% with due=m.balance_due st=m.status %}
+<div class="page-head">
+  <div class="row"><a class="btn btn-icon" href="{% url 'member_list' %}">{% icon "back" 18 "flip" %}</a><h1>{% translate "Member profile" %}</h1></div>
+  <div class="actions">
+    {% if can.checkin %}<button class="btn btn-primary" id="ciBtn">{% icon "scan" 18 %} <span class="lbl">{% translate "Check-in" %}</span></button>{% endif %}
+    {% if can.payments %}<button class="btn" data-modal="renewModal" id="renew">{% icon "refresh" 18 %} <span class="lbl">{% translate "Renew" %}</span></button>{% endif %}
+    <a class="btn" href="{% url 'member_card' m.pk %}" target="_blank">{% icon "id" 18 %} <span class="lbl">{% translate "Card" %}</span></a>
+    {% if can.members %}<a class="btn" href="{% url 'member_edit' m.pk %}">{% icon "edit" 18 %} <span class="lbl">{% translate "Edit" %}</span></a>{% endif %}
+  </div>
+</div>
+
+{% if m.is_archived %}<div class="alert alert-warning">{% icon "archive" 18 %} {% translate "This member is archived." %}</div>{% endif %}
+{% if m.medical_notes %}<div class="alert alert-error">{% icon "alert" 18 %} <b>{% translate "Medical notes" %}:</b> {{ m.medical_notes }}</div>{% endif %}
+
+<div class="grid g-main">
+  <div class="stack">
+    <div class="card card-pad">
+      <div class="profile">
+        <div class="avatar avatar-lg">{% if m.photo %}<img src="{{ m.photo.url }}" alt="">{% else %}{{ m.initials }}{% endif %}</div>
+        <div class="info">
+          <div class="row"><h1 style="font-size:1.35rem">{{ m.full_name }}</h1>{% status_badge st %}</div>
+          <div class="muted">{{ m.code }} · {{ m.get_gender_display }}{% if m.age %} · {{ m.age }} {% translate "years" %}{% endif %} · {% translate "since" %} {{ m.joined_at|date:"d/m/Y" }}</div>
+          <div class="row" style="margin-top:10px">
+            {% if m.phone %}<a class="btn btn-sm" href="tel:{{ m.phone }}">{% icon "phone" 16 %} {{ m.phone }}</a>
+            <a class="btn btn-sm btn-wa" target="_blank" rel="noopener" href="{% wa_link m gym.whatsapp_template gym.name sub.end_date|date:'d/m/Y' due %}">{% icon "message" 16 %} WhatsApp</a>{% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2>{% translate "Current subscription" %}</h2>
+        {% if sub and can.payments %}<div class="row" style="gap:6px">
+          {% if sub.frozen_since %}
+          <form method="post" action="{% url 'subscription_action' sub.pk 'unfreeze' %}">{% csrf_token %}<button class="btn btn-sm">{% icon "play" 14 %} {% translate "Resume" %}</button></form>
+          {% elif st == 'active' or st == 'expiring' %}
+          <form method="post" action="{% url 'subscription_action' sub.pk 'freeze' %}" data-confirm="{% translate 'Pause this subscription? Remaining days are kept.' %}">{% csrf_token %}<button class="btn btn-sm">{% icon "pause" 14 %} {% translate "Pause" %}</button></form>
+          {% endif %}
+          <button class="btn btn-sm" data-modal="extendModal" data-action="{% url 'subscription_action' sub.pk 'extend' %}">{% icon "calendar" 14 %} {% translate "Days +/-" %}</button>
+        </div>{% endif %}
+      </div>
+      <div class="card-body">
+      {% if sub %}
+        <div class="grid g-3">
+          <div class="sub-box"><div class="muted small">{% translate "Plan" %}</div><div style="font-weight:700;font-size:1.05rem">{{ sub.plan_name }}</div>
+            <div class="small muted"><span dir="ltr">{{ sub.start_date|date:"d/m/Y" }} → {{ sub.end_date|date:"d/m/Y" }}</span></div></div>
+          <div class="sub-box">
+            {% if sub.sessions_total %}
+              <div class="muted small">{% translate "Sessions left" %}</div><div class="big-num">{{ sub.sessions_left }} <span class="small muted">/ {{ sub.sessions_total }}</span></div>
+              <div class="progress"><span style="width:{% widthratio sub.sessions_used sub.sessions_total 100 %}%"></span></div>
+            {% else %}
+              <div class="muted small">{% translate "Days left" %}</div><div class="big-num" style="{% if sub.days_left < 0 %}color:var(--bad){% endif %}">{% if sub.days_left >= 0 %}{{ sub.days_left }}{% else %}0{% endif %}</div>
+              {% if sub.frozen_since %}<div class="small" style="color:var(--info)">{% translate "Paused since" %} {{ sub.frozen_since|date:"d/m/Y" }}</div>{% endif %}
+            {% endif %}
+          </div>
+          <div class="sub-box"><div class="muted small">{% translate "Remaining to pay" %}</div>
+            <div class="big-num" style="color:{% if sub.due > 0 %}var(--bad){% else %}var(--ok){% endif %}">{{ sub.due|money }}</div>
+            <div class="small muted">{% translate "Paid" %} {{ sub.paid|money }} / {{ sub.total|money }}</div>
+            {% if sub.due > 0 and can.payments %}<button class="btn btn-sm btn-primary" style="margin-top:8px" data-modal="payModal" data-action="{% url 'subscription_pay' sub.pk %}" data-set-amount="{{ sub.due|stringformat:'.2f' }}">{% icon "wallet" 14 %} {% translate "Pay" %}</button>{% endif %}
+          </div>
+        </div>
+      {% else %}
+        <div class="empty">{% icon "card" 36 %}<div>{% translate "No subscription yet." %}</div>
+          {% if can.payments %}<button class="btn btn-primary" style="margin-top:10px" data-modal="renewModal">{% icon "plus" 18 %} {% translate "Add a subscription" %}</button>{% endif %}</div>
+      {% endif %}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="tabs" style="padding:0 10px;margin:0" id="tabs">
+        <button class="on" data-tab="t-subs">{% translate "Subscriptions" %} ({{ subs|length }})</button>
+        <button data-tab="t-pay">{% translate "Payments" %}</button>
+        <button data-tab="t-ci">{% translate "Visits" %}</button>
+        {% if sales %}<button data-tab="t-sales">{% translate "Purchases" %}</button>{% endif %}
+      </div>
+      <div id="t-subs" class="table-wrap">
+        <table class="table responsive"><thead><tr><th>{% translate "Plan" %}</th><th>{% translate "Period" %}</th><th>{% translate "Total" %}</th><th>{% translate "Paid" %}</th><th>{% translate "Status" %}</th><th></th></tr></thead><tbody>
+        {% for s in subs %}<tr>
+          <td class="td-main"><b>{{ s.plan_name }}</b>{% if s.discount %} <span class="small muted">(-{{ s.discount|money }})</span>{% endif %}</td>
+          <td data-label="{% translate 'Period' %}" class="nowrap"><span dir="ltr">{{ s.start_date|date:"d/m/y" }} → {{ s.end_date|date:"d/m/y" }}</span></td>
+          <td data-label="{% translate 'Total' %}" class="nowrap">{{ s.total|money }}</td>
+          <td data-label="{% translate 'Paid' %}" class="nowrap">{{ s.paid|money }}{% if s.due > 0 %} <span class="badge badge-bad">-{{ s.due|money }}</span>{% endif %}</td>
+          <td data-label="{% translate 'Status' %}">{% status_badge s.status %}</td>
+          <td class="right nowrap">{% if s.due > 0 and not s.cancelled and can.payments %}<button class="btn btn-sm" data-modal="payModal" data-action="{% url 'subscription_pay' s.pk %}" data-set-amount="{{ s.due|stringformat:'.2f' }}">{% translate "Pay" %}</button>{% endif %}
+            {% if not s.cancelled and can.plans %}<form method="post" action="{% url 'subscription_action' s.pk 'cancel' %}" style="display:inline" data-confirm="{% translate 'Cancel this subscription?' %}">{% csrf_token %}<button class="btn btn-sm btn-danger btn-icon" title="{% translate 'Cancel' %}">{% icon "x" 14 %}</button></form>{% endif %}</td>
+        </tr>{% empty %}<tr><td colspan="6" class="empty">—</td></tr>{% endfor %}
+        </tbody></table>
+      </div>
+      <div id="t-pay" class="table-wrap hidden">
+        <div class="row" style="padding:10px 14px">{% if can.payments %}<button class="btn btn-sm" data-modal="otherModal">{% icon "plus" 14 %} {% translate "Other payment (insurance, fee…)" %}</button>{% endif %}</div>
+        <table class="table responsive"><thead><tr><th>{% translate "Receipt" %}</th><th>{% translate "Date" %}</th><th>{% translate "Type" %}</th><th>{% translate "Method" %}</th><th class="right">{% translate "Amount" %}</th><th></th></tr></thead><tbody>
+        {% for p in payments %}<tr>
+          <td class="td-main"><b>{{ p.number }}</b></td>
+          <td data-label="{% translate 'Date' %}" class="nowrap">{{ p.paid_at|date:"d/m/Y H:i" }}</td>
+          <td data-label="{% translate 'Type' %}">{{ p.get_kind_display }}</td>
+          <td data-label="{% translate 'Method' %}">{{ p.get_method_display }}</td>
+          <td data-label="{% translate 'Amount' %}" class="right nowrap"><b>{{ p.amount|money }}</b></td>
+          <td class="right nowrap"><a class="btn btn-sm btn-icon" href="{% url 'receipt' p.pk %}" target="_blank" title="{% translate 'Print' %}">{% icon "print" 14 %}</a>
+            {% if request.user.is_owner %}<form method="post" action="{% url 'payment_delete' p.pk %}" style="display:inline" data-confirm="{% translate 'Delete this payment?' %}">{% csrf_token %}<input type="hidden" name="next" value="{{ request.path }}"><button class="btn btn-sm btn-icon btn-danger">{% icon "trash" 14 %}</button></form>{% endif %}</td>
+        </tr>{% empty %}<tr><td colspan="6" class="empty">—</td></tr>{% endfor %}
+        </tbody></table>
+      </div>
+      <div id="t-ci" class="hidden">
+        <ul class="list">{% for c in checkins %}<li><span class="grow">{{ c.at|date:"l d/m/Y H:i" }}</span>{% if c.allowed %}<span class="badge badge-ok">{% translate "Entered" %}</span>{% else %}<span class="badge badge-bad">{% translate "Refused" %}</span>{% endif %}</li>{% empty %}<li class="empty">—</li>{% endfor %}</ul>
+      </div>
+      {% if sales %}<div id="t-sales" class="hidden"><ul class="list">{% for s in sales %}<li><span class="grow">{{ s.created_at|date:"d/m/Y" }} — {% for i in s.items.all %}{{ i.quantity }}× {{ i.product_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span><b>{{ s.total|money }}</b>{% if s.due > 0 %}<span class="badge badge-bad">-{{ s.due|money }}</span>{% endif %}</li>{% endfor %}</ul></div>{% endif %}
+    </div>
+  </div>
+
+  <div class="stack">
+    {% if due > 0 %}<div class="card card-pad" style="border-color:var(--bad)"><div class="muted small">{% translate "Total debt" %}</div><div class="big-num" style="color:var(--bad)">{{ due|money }}</div></div>{% endif %}
+    <div class="card card-pad">
+      <h2 style="margin-bottom:12px">{% translate "Information" %}</h2>
+      <dl class="dl">
+        <dt>{% translate "Visits this month" %}</dt><dd>{{ visits_month }}</dd>
+        <dt>{% translate "Insurance" %}</dt><dd>{% if m.insurance_ok %}<span class="badge badge-ok">{% translate "until" %} {{ m.insurance_until|date:"d/m/Y" }}</span>{% elif m.insurance_until %}<span class="badge badge-bad">{% translate "expired" %} {{ m.insurance_until|date:"d/m/Y" }}</span>{% else %}<span class="badge badge-muted">—</span>{% endif %}</dd>
+        {% if m.birth_date %}<dt>{% translate "Birth date" %}</dt><dd>{{ m.birth_date|date:"d/m/Y" }}</dd>{% endif %}
+        {% if m.phone2 %}<dt>{% translate "Second phone" %}</dt><dd>{{ m.phone2 }}</dd>{% endif %}
+        {% if m.email %}<dt>{% translate "Email" %}</dt><dd>{{ m.email }}</dd>{% endif %}
+        {% if m.address %}<dt>{% translate "Address" %}</dt><dd>{{ m.address }}</dd>{% endif %}
+        {% if m.national_id %}<dt>{% translate "ID card number" %}</dt><dd>{{ m.national_id }}</dd>{% endif %}
+        {% if m.blood_type %}<dt>{% translate "Blood type" %}</dt><dd>{{ m.blood_type }}</dd>{% endif %}
+        {% if m.emergency_name or m.emergency_phone %}<dt>{% translate "Emergency" %}</dt><dd>{{ m.emergency_name }} {% if m.emergency_phone %}<a href="tel:{{ m.emergency_phone }}">{{ m.emergency_phone }}</a>{% endif %}</dd>{% endif %}
+      </dl>
+      {% if m.notes %}<p class="small" style="margin-top:12px;white-space:pre-line">{{ m.notes }}</p>{% endif %}
+    </div>
+    {% if can.members %}
+    <div class="card card-pad stack" style="gap:8px">
+      <form method="post" action="{% url 'member_archive' m.pk %}">{% csrf_token %}<button class="btn btn-block">{% icon "archive" 16 %} {% if m.is_archived %}{% translate "Restore" %}{% else %}{% translate "Archive" %}{% endif %}</button></form>
+      {% if request.user.is_owner %}<form method="post" action="{% url 'member_delete' m.pk %}" data-confirm="{% translate 'Delete permanently this member and all his history?' %}">{% csrf_token %}<button class="btn btn-block btn-danger">{% icon "trash" 16 %} {% translate "Delete" %}</button></form>{% endif %}
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{# ---------------- modals #}
+<div class="modal" id="renewModal"><div class="modal-box">
+  <form method="post" action="{% url 'subscription_create' m.pk %}">{% csrf_token %}
+    <div class="card-head"><h2>{% translate "New subscription / renewal" %}</h2><button type="button" class="btn btn-icon btn-sm" data-close>{% icon "x" 16 %}</button></div>
+    <div class="card-body">{% include "gym/members/_sub_fields.html" with f=sub_form %}</div>
+    <div class="modal-foot"><button class="btn" name="print" value="1">{% icon "print" 16 %} {% translate "Save & print" %}</button><button class="btn btn-primary">{% icon "check" 16 %} {% translate "Save" %}</button></div>
+  </form>
+</div></div>
+
+<div class="modal" id="payModal"><div class="modal-box">
+  <form method="post">{% csrf_token %}
+    <div class="card-head"><h2>{% translate "Record a payment" %}</h2><button type="button" class="btn btn-icon btn-sm" data-close>{% icon "x" 16 %}</button></div>
+    <div class="card-body form-grid">{% for f in pay_form %}{% include "gym/_field.html" %}{% endfor %}</div>
+    <div class="modal-foot"><button class="btn" name="print" value="1">{% icon "print" 16 %} {% translate "Save & print" %}</button><button class="btn btn-primary">{% icon "check" 16 %} {% translate "Save" %}</button></div>
+  </form>
+</div></div>
+
+<div class="modal" id="otherModal"><div class="modal-box">
+  <form method="post" action="{% url 'member_other_payment' m.pk %}">{% csrf_token %}
+    <div class="card-head"><h2>{% translate "Other payment" %}</h2><button type="button" class="btn btn-icon btn-sm" data-close>{% icon "x" 16 %}</button></div>
+    <div class="card-body form-grid">{% for f in other_form %}{% include "gym/_field.html" %}{% endfor %}</div>
+    <div class="modal-foot"><button class="btn" name="print" value="1">{% icon "print" 16 %} {% translate "Save & print" %}</button><button class="btn btn-primary">{% icon "check" 16 %} {% translate "Save" %}</button></div>
+  </form>
+</div></div>
+
+<div class="modal" id="extendModal"><div class="modal-box">
+  <form method="post">{% csrf_token %}
+    <div class="card-head"><h2>{% translate "Add or remove days" %}</h2><button type="button" class="btn btn-icon btn-sm" data-close>{% icon "x" 16 %}</button></div>
+    <div class="card-body"><div class="field"><label>{% translate "Days (e.g. 7 or -3)" %}</label><input class="input" type="number" name="days" value="7" required></div>
+      <p class="small muted">{% translate "Useful for a gift, a closure (Ramadan, holidays) or a correction." %}</p></div>
+    <div class="modal-foot"><button class="btn btn-primary">{% icon "check" 16 %} {% translate "Apply" %}</button></div>
+  </form>
+</div></div>
+{% endwith %}
+{% endblock %}
+{% block scripts %}
+{% include "gym/members/_sub_js.html" %}
+<script>
+document.querySelectorAll('#tabs [data-tab]').forEach(function(b){ b.addEventListener('click', function(){
+  document.querySelectorAll('#tabs [data-tab]').forEach(function(x){ x.classList.remove('on'); document.getElementById(x.dataset.tab).classList.add('hidden'); });
+  b.classList.add('on'); document.getElementById(b.dataset.tab).classList.remove('hidden'); }); });
+if (location.hash === '#renew') { var r = document.getElementById('renew'); if (r) r.click(); }
+var ciBtn = document.getElementById('ciBtn');
+if (ciBtn) ciBtn.addEventListener('click', function(){
+  var fd = new FormData(); fd.append('member_id', '{{ m.pk }}'); fd.append('csrfmiddlewaretoken', GYM.csrf);
+  fetch('{% url "checkin_api" %}', {method: 'POST', body: fd}).then(function(r){ return r.json(); }).then(function(d){
+    if (!d.ok && confirm(d.message + '\n\n{% translate "Force entry anyway?"|escapejs %}')) { fd.append('force', '1'); return fetch('{% url "checkin_api" %}', {method: 'POST', body: fd}).then(function(){ location.reload(); }); }
+    alert((d.ok ? '✔ ' : '✖ ') + d.message); location.reload();
+  });
+});
+</script>
+{% endblock %}

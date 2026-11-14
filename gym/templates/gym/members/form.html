@@ -1,0 +1,86 @@
+{% extends "gym/base.html" %}{% load i18n gym_tags %}
+{% block title %}{% if creating %}{% translate "New member" %}{% else %}{{ member.full_name }}{% endif %}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div class="row">
+    <a class="btn btn-icon" href="{% if member %}{% url 'member_detail' member.pk %}{% else %}{% url 'member_list' %}{% endif %}">{% icon "back" 18 "flip" %}</a>
+    <h1>{% if creating %}{% translate "New member" %}{% else %}{% translate "Edit" %} — {{ member.full_name }}{% endif %}</h1>
+  </div>
+</div>
+
+<form method="post" enctype="multipart/form-data">{% csrf_token %}
+<input type="hidden" name="webcam_photo" id="webcam_photo">
+<div class="grid g-main">
+  <div class="stack">
+    <div class="card card-pad">
+      <div class="form-grid">
+        {% include "gym/_field.html" with f=form.first_name %}
+        {% include "gym/_field.html" with f=form.last_name %}
+        {% include "gym/_field.html" with f=form.gender %}
+        {% include "gym/_field.html" with f=form.birth_date %}
+        {% include "gym/_field.html" with f=form.phone %}
+        {% include "gym/_field.html" with f=form.phone2 %}
+        {% include "gym/_field.html" with f=form.email %}
+        {% include "gym/_field.html" with f=form.national_id %}
+        {% include "gym/_field.html" with f=form.address cls="full" %}
+        <div class="fieldset-title">{% translate "Health & emergency" %}</div>
+        {% include "gym/_field.html" with f=form.blood_type %}
+        {% include "gym/_field.html" with f=form.insurance_until %}
+        {% include "gym/_field.html" with f=form.emergency_name %}
+        {% include "gym/_field.html" with f=form.emergency_phone %}
+        {% include "gym/_field.html" with f=form.medical_notes cls="full" %}
+        <div class="fieldset-title">{% translate "Other" %}</div>
+        {% include "gym/_field.html" with f=form.joined_at %}
+        {% include "gym/_field.html" with f=form.notes cls="full" %}
+      </div>
+    </div>
+
+    {% if creating %}
+    <div class="card">
+      <div class="card-head"><label class="row" style="gap:10px;cursor:pointer"><input type="checkbox" class="checkbox" name="with_subscription" value="1" id="withSub" checked> <h2>{% translate "Add a subscription now" %}</h2></label></div>
+      <div class="card-body" id="subBox">
+        {% include "gym/members/_sub_fields.html" with f=sub_form %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="stack">
+    <div class="card card-pad" style="text-align:center">
+      <div class="avatar avatar-lg" id="photoPreview" style="margin:0 auto 12px">{% if member.photo %}<img src="{{ member.photo.url }}" alt="">{% else %}{% icon "camera" 32 %}{% endif %}</div>
+      <video id="cam" autoplay playsinline class="hidden" style="width:100%;border-radius:12px;margin-bottom:10px"></video>
+      <div class="row" style="justify-content:center">
+        <button type="button" class="btn btn-sm" id="camBtn">{% icon "camera" 16 %} {% translate "Webcam" %}</button>
+        <button type="button" class="btn btn-sm btn-primary hidden" id="snapBtn">{% icon "check" 16 %} {% translate "Take photo" %}</button>
+        <label class="btn btn-sm">{% icon "download" 16 %} {% translate "Upload" %}<input type="file" name="photo" accept="image/*" capture="user" id="photoInput" class="hidden"></label>
+      </div>
+      {% for e in form.photo.errors %}<div class="err small">{{ e }}</div>{% endfor %}
+    </div>
+    <button class="btn btn-primary btn-lg btn-block">{% icon "check" 18 %} {% translate "Save" %}</button>
+  </div>
+</div>
+</form>
+{% endblock %}
+{% block scripts %}
+<script>
+(function(){
+  var prev = document.getElementById('photoPreview'), input = document.getElementById('photoInput');
+  input.addEventListener('change', function(){ if (input.files[0]) { var u = URL.createObjectURL(input.files[0]); prev.innerHTML = '<img src="'+u+'">'; document.getElementById('webcam_photo').value=''; }});
+  var cam = document.getElementById('cam'), camBtn = document.getElementById('camBtn'), snap = document.getElementById('snapBtn'), stream;
+  camBtn.addEventListener('click', function(){
+    if (!navigator.mediaDevices) { alert('Webcam not available'); return; }
+    navigator.mediaDevices.getUserMedia({video: {width: 480, height: 480}}).then(function(s){ stream = s; cam.srcObject = s; cam.classList.remove('hidden'); snap.classList.remove('hidden'); }).catch(function(e){ alert(e.message); });
+  });
+  snap.addEventListener('click', function(){
+    var c = document.createElement('canvas'), w = cam.videoWidth, h = cam.videoHeight, s = Math.min(w, h);
+    c.width = c.height = 400; c.getContext('2d').drawImage(cam, (w-s)/2, (h-s)/2, s, s, 0, 0, 400, 400);
+    var data = c.toDataURL('image/jpeg', .85);
+    document.getElementById('webcam_photo').value = data; prev.innerHTML = '<img src="'+data+'">';
+    stream.getTracks().forEach(function(t){ t.stop(); }); cam.classList.add('hidden'); snap.classList.add('hidden');
+  });
+  var ws = document.getElementById('withSub');
+  if (ws) { var box = document.getElementById('subBox'); var f = function(){ box.style.display = ws.checked ? '' : 'none'; box.querySelectorAll('select,input').forEach(function(i){ i.disabled = !ws.checked; }); }; ws.addEventListener('change', f); f(); }
+})();
+</script>
+{% include "gym/members/_sub_js.html" %}
+{% endblock %}

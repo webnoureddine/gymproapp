@@ -1,0 +1,15 @@
+{% load i18n gym_tags %}<form class="filters" method="get">
+  <div class="seg">
+    <a href="{% qs period='today' page='' start='' end='' %}" class="{% if period == 'today' %}on{% endif %}">{% translate "Today" %}</a>
+    <a href="{% qs period='yesterday' page='' start='' end='' %}" class="{% if period == 'yesterday' %}on{% endif %}">{% translate "Yesterday" %}</a>
+    <a href="{% qs period='week' page='' start='' end='' %}" class="{% if period == 'week' %}on{% endif %}">{% translate "This week" %}</a>
+    <a href="{% qs period='month' page='' start='' end='' %}" class="{% if period == 'month' %}on{% endif %}">{% translate "This month" %}</a>
+    <a href="{% qs period='last_month' page='' start='' end='' %}" class="{% if period == 'last_month' %}on{% endif %}">{% translate "Last month" %}</a>
+    <a href="{% qs period='year' page='' start='' end='' %}" class="{% if period == 'year' %}on{% endif %}">{% translate "This year" %}</a>
+  </div>
+  <input type="hidden" name="period" value="custom">
+  {% for k, v in request.GET.items %}{% if k != 'period' and k != 'start' and k != 'end' and k != 'page' %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endif %}{% endfor %}
+  <input class="input" type="date" name="start" value="{{ start|date:'Y-m-d' }}" style="min-width:0;width:150px">
+  <input class="input" type="date" name="end" value="{{ end|date:'Y-m-d' }}" style="min-width:0;width:150px">
+  <button class="btn">{% translate "Apply" %}</button>
+</form>

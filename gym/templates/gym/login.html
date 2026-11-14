@@ -1,0 +1,55 @@
+{% load static i18n gym_tags %}{% get_current_language as LANG %}{% get_current_language_bidi as RTL %}<!doctype html>
+<html lang="{{ LANG }}" dir="{% if RTL %}rtl{% else %}ltr{% endif %}">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% translate "Sign in" %} · {{ gym.name|default:"GymPro DZ" }}</title>
+<link rel="icon" href="{% static 'gym/img/icon.png' %}">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#0e9f6e">
+<link rel="apple-touch-icon" href="{% static 'gym/img/apple-touch-icon.png' %}">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}))}</script>
+<link rel="stylesheet" href="{% static 'gym/fonts/fonts.css' %}">
+<link rel="stylesheet" href="{% static 'gym/app.css' %}">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'light'}catch(e){}</script>
+</head>
+<body>
+<div class="auth-wrap">
+  <section class="auth-art">
+    <div class="brand" style="padding:0">
+      <div class="brand-logo">{% if gym.logo %}<img src="{{ gym.logo.url }}" alt="">{% else %}{% icon "dumbbell" 22 %}{% endif %}</div>
+      <div><div class="brand-name">{{ gym.name }}</div><div class="brand-sub">GymPro DZ</div></div>
+    </div>
+    <div>
+      <h2>{% translate "Manage your gym simply, from reception to accounting." %}</h2>
+      <ul style="margin-top:22px">
+        <li>{% icon "check" 18 %} {% translate "Members, subscriptions and sessions" %}</li>
+        <li>{% icon "check" 18 %} {% translate "Fast check-in with QR card" %}</li>
+        <li>{% icon "check" 18 %} {% translate "Payments, debts and receipts in DA" %}</li>
+        <li>{% icon "check" 18 %} {% translate "Shop, stock, expenses and reports" %}</li>
+      </ul>
+    </div>
+    <div class="small" style="opacity:.7">© GymPro DZ</div>
+  </section>
+  <section class="auth-form">
+    <div class="card">
+      <div class="row between" style="margin-bottom:18px">
+        <h1>{% translate "Sign in" %}</h1>
+        <form method="post" action="{% url 'set_language' %}">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}">
+          <select name="language" class="input" style="width:auto;padding:6px 8px" onchange="this.form.submit()">
+            {% get_available_languages as LANGS %}{% for code, name in LANGS %}<option value="{{ code }}" {% if code == LANG %}selected{% endif %}>{{ name }}</option>{% endfor %}
+          </select>
+        </form>
+      </div>
+      {% if form.errors %}<div class="alert alert-error">{% icon "alert" 18 %} {% translate "Wrong username or password." %}</div>{% endif %}
+      <form method="post" class="stack" style="gap:14px">{% csrf_token %}
+        <div class="field"><label for="id_username">{% translate "Username" %}</label>{{ form.username }}</div>
+        <div class="field"><label for="id_password">{% translate "Password" %}</label>{{ form.password }}</div>
+        <input type="hidden" name="next" value="{{ next }}">
+        <button class="btn btn-primary btn-lg btn-block">{% translate "Sign in" %}</button>
+      </form>
+    </div>
+  </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{% extends "gym/base.html" %}{% load i18n gym_tags %}
+{% block title %}{% translate "Staff" %}{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>{% translate "Staff" %}</h1><div class="muted small">{% translate "Each employee has an account and a role." %}</div></div>
+  <div class="actions"><a class="btn btn-primary" href="{% url 'staff_create' %}">{% icon "user-plus" 18 %} <span class="lbl">{% translate "New account" %}</span></a></div></div>
+<div class="grid g-main">
+<div class="card"><div class="table-wrap"><table class="table responsive">
+  <thead><tr><th>{% translate "Name" %}</th><th>{% translate "Username" %}</th><th>{% translate "Role" %}</th><th>{% translate "Phone" %}</th><th>{% translate "Last login" %}</th><th></th></tr></thead>
+  <tbody>{% for u in users %}<tr style="{% if not u.is_active %}opacity:.5{% endif %}">
+    <td class="td-main"><b>{{ u.get_full_name|default:u.username }}</b>{% if not u.is_active %} <span class="badge badge-muted">{% translate "Disabled" %}</span>{% endif %}</td>
+    <td data-label="{% translate 'Username' %}">{{ u.username }}</td>
+    <td data-label="{% translate 'Role' %}"><span class="badge {% if u.role == 'owner' %}badge-ok{% else %}badge-info{% endif %}">{{ u.get_role_display }}</span></td>
+    <td data-label="{% translate 'Phone' %}">{{ u.phone|default:"—" }}</td>
+    <td data-label="{% translate 'Last login' %}">{{ u.last_login|date:"d/m/Y H:i"|default:"—" }}</td>
+    <td class="right"><a class="btn btn-sm" href="{% url 'staff_edit' u.pk %}">{% icon "edit" 14 %}</a></td>
+  </tr>{% endfor %}</tbody>
+</table></div></div>
+<div class="card card-pad"><h2 style="margin-bottom:10px">{% translate "What each role can do" %}</h2>
+  <dl class="dl small">
+    <dt><b>{% translate "Owner" %}</b></dt><dd>{% translate "Everything, including settings, staff, deleting payments." %}</dd>
+    <dt><b>{% translate "Manager" %}</b></dt><dd>{% translate "Members, payments, plans, shop & stock, expenses, reports." %}</dd>
+    <dt><b>{% translate "Receptionist" %}</b></dt><dd>{% translate "Members, check-in, payments, shop sales, debts." %}</dd>
+    <dt><b>{% translate "Coach" %}</b></dt><dd>{% translate "View members and check-in only." %}</dd>
+  </dl></div>
+</div>
+{% endblock %}

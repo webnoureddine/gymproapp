@@ -1,0 +1,27 @@
+{% extends "gym/base.html" %}{% load i18n gym_tags %}
+{% block title %}{% translate "Debts" %}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>{% translate "Debts" %}</h1><div class="muted small">{% translate "Members who still owe money (subscriptions or shop)." %}</div></div>
+  <div class="actions"><a class="btn" href="?export=1">{% icon "download" 18 %} <span class="lbl">Excel (CSV)</span></a></div>
+</div>
+<div class="grid g-2" style="margin-bottom:16px">
+  <div class="card kpi"><div class="ic ic-red">{% icon "alert" 22 %}</div><div><div class="lbl">{% translate "Total to collect" %}</div><div class="val">{{ total|money }}</div></div></div>
+  <div class="card kpi"><div class="ic ic-amber">{% icon "users" 22 %}</div><div><div class="lbl">{% translate "Members with debt" %}</div><div class="val">{{ rows|length }}</div></div></div>
+</div>
+<form class="filters"><input class="input grow" type="search" name="q" value="{{ request.GET.q }}" placeholder="{% translate 'Search…' %}"><button class="btn">{% icon "search" 18 %}</button></form>
+<div class="card">
+  <div class="table-wrap"><table class="table responsive">
+    <thead><tr><th>{% translate "Member" %}</th><th>{% translate "Phone" %}</th><th>{% translate "Status" %}</th><th class="right">{% translate "Debt" %}</th><th></th></tr></thead>
+    <tbody>{% for m, d in rows %}<tr>
+      <td class="td-main"><a class="person" href="{% url 'member_detail' m.pk %}"><div class="avatar">{% if m.photo %}<img src="{{ m.photo.url }}" alt="">{% else %}{{ m.initials }}{% endif %}</div><div><b>{{ m.full_name }}</b><span>{{ m.code }}</span></div></a></td>
+      <td data-label="{% translate 'Phone' %}">{{ m.phone|default:"—" }}</td>
+      <td data-label="{% translate 'Status' %}">{% status_badge m.status %}</td>
+      <td data-label="{% translate 'Debt' %}" class="right nowrap"><b style="color:var(--bad)">{{ d|money }}</b></td>
+      <td class="right nowrap">
+        {% if m.phone %}<a class="btn btn-sm btn-wa" target="_blank" rel="noopener" href="{% wa_link m gym.whatsapp_template gym.name '' d %}">{% icon "message" 14 %}</a>{% endif %}
+        <a class="btn btn-sm btn-primary" href="{% url 'member_detail' m.pk %}">{% icon "wallet" 14 %} {% translate "Collect" %}</a></td>
+    </tr>{% empty %}<tr><td colspan="5"><div class="empty">{% icon "check" 36 %}<div>{% translate "No debt. Well done!" %}</div></div></td></tr>{% endfor %}</tbody>
+  </table></div>
+</div>
+{% endblock %}

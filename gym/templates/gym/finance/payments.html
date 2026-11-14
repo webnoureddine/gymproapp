@@ -1,0 +1,40 @@
+{% extends "gym/base.html" %}{% load i18n gym_tags %}
+{% block title %}{% translate "Payments" %}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>{% translate "Payments" %}</h1><div class="muted small"><span dir="ltr">{{ start|date:"d/m/Y" }} → {{ end|date:"d/m/Y" }}</span></div></div>
+  <div class="actions"><a class="btn" href="{% url 'payment_export' %}{% qs page='' %}">{% icon "download" 18 %} <span class="lbl">Excel (CSV)</span></a></div>
+</div>
+{% include "gym/_period.html" %}
+
+<div class="grid g-4" style="margin-bottom:16px">
+  <div class="card kpi"><div class="ic ic-green">{% icon "wallet" 22 %}</div><div><div class="lbl">{% translate "Total collected" %}</div><div class="val">{{ total|money }}</div><div class="sub">{{ count }} {% translate "payments" %}</div></div></div>
+  {% for code, label, amount in methods|slice:":3" %}<div class="card kpi"><div class="ic ic-blue">{% icon "card" 22 %}</div><div><div class="lbl">{{ label }}</div><div class="val">{{ amount|money }}</div></div></div>{% endfor %}
+</div>
+
+<form class="filters" method="get">
+  {% for k, v in request.GET.items %}{% if k == 'period' or k == 'start' or k == 'end' %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endif %}{% endfor %}
+  <input class="input grow" type="search" name="q" value="{{ request.GET.q }}" placeholder="{% translate 'Receipt, member, reference…' %}">
+  <select class="input" name="method" onchange="this.form.submit()"><option value="">{% translate "All methods" %}</option>{% for k, v in METHODS %}<option value="{{ k }}" {% if request.GET.method == k %}selected{% endif %}>{{ v }}</option>{% endfor %}</select>
+  <select class="input" name="kind" onchange="this.form.submit()"><option value="">{% translate "All types" %}</option>{% for k, v in KINDS %}<option value="{{ k }}" {% if request.GET.kind == k %}selected{% endif %}>{{ v }}</option>{% endfor %}</select>
+  <button class="btn">{% icon "search" 18 %}</button>
+</form>
+
+<div class="card">
+  <div class="table-wrap"><table class="table responsive">
+    <thead><tr><th>{% translate "Receipt" %}</th><th>{% translate "Date" %}</th><th>{% translate "Member" %}</th><th>{% translate "Type" %}</th><th>{% translate "Method" %}</th><th>{% translate "Received by" %}</th><th class="right">{% translate "Amount" %}</th><th></th></tr></thead>
+    <tbody>{% for p in page.object_list %}<tr>
+      <td class="td-main"><b>{{ p.number }}</b></td>
+      <td data-label="{% translate 'Date' %}" class="nowrap">{{ p.paid_at|date:"d/m/Y H:i" }}</td>
+      <td data-label="{% translate 'Member' %}">{% if p.member %}<a href="{% url 'member_detail' p.member_id %}">{{ p.member.full_name }}</a>{% else %}<span class="muted">{% translate "Walk-in" %}</span>{% endif %}</td>
+      <td data-label="{% translate 'Type' %}">{{ p.get_kind_display }}</td>
+      <td data-label="{% translate 'Method' %}">{{ p.get_method_display }}{% if p.reference %} <span class="muted small">{{ p.reference }}</span>{% endif %}</td>
+      <td data-label="{% translate 'Received by' %}">{{ p.received_by.display_name|default:"—" }}</td>
+      <td data-label="{% translate 'Amount' %}" class="right nowrap"><b>{{ p.amount|money }}</b></td>
+      <td class="right nowrap"><a class="btn btn-sm btn-icon" href="{% url 'receipt' p.pk %}" target="_blank">{% icon "print" 14 %}</a>
+        {% if request.user.is_owner %}<form method="post" action="{% url 'payment_delete' p.pk %}" style="display:inline" data-confirm="{% translate 'Delete this payment?' %}">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}"><button class="btn btn-sm btn-icon btn-danger">{% icon "trash" 14 %}</button></form>{% endif %}</td>
+    </tr>{% empty %}<tr><td colspan="8"><div class="empty">{% icon "wallet" 36 %}<div>{% translate "No payment for this period." %}</div></div></td></tr>{% endfor %}</tbody>
+  </table></div>
+  {% if page.has_other_pages %}<div class="pagination">{% if page.has_previous %}<a class="btn btn-sm" href="{% qs page=page.previous_page_number %}">‹</a>{% endif %}<span class="small muted">{{ page.number }} / {{ page.paginator.num_pages }}</span>{% if page.has_next %}<a class="btn btn-sm" href="{% qs page=page.next_page_number %}">›</a>{% endif %}</div>{% endif %}
+</div>
+{% endblock %}

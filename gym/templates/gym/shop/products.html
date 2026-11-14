@@ -1,0 +1,29 @@
+{% extends "gym/base.html" %}{% load i18n gym_tags %}
+{% block title %}{% translate "Products & stock" %}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>{% translate "Products & stock" %}</h1><div class="muted small">{% translate "Stock value (purchase price)" %}: <b>{{ stock_value|money }}</b></div></div>
+  <div class="actions"><a class="btn btn-primary" href="{% url 'product_create' %}">{% icon "plus" 18 %} <span class="lbl">{% translate "New product" %}</span></a></div>
+</div>
+<form class="filters"><input class="input grow" type="search" name="q" value="{{ request.GET.q }}" placeholder="{% translate 'Name, barcode, category…' %}">
+  <label class="row small" style="gap:6px"><input type="checkbox" class="checkbox" name="low" value="1" {% if request.GET.low %}checked{% endif %} onchange="this.form.submit()"> {% translate "Low stock only" %}</label>
+  <button class="btn">{% icon "search" 18 %}</button></form>
+<div class="card"><div class="table-wrap"><table class="table responsive">
+  <thead><tr><th>{% translate "Product" %}</th><th>{% translate "Category" %}</th><th class="right">{% translate "Purchase price" %}</th><th class="right">{% translate "Selling price" %}</th><th class="right">{% translate "Stock" %}</th><th></th></tr></thead>
+  <tbody>{% for p in products %}<tr style="{% if not p.is_active %}opacity:.55{% endif %}">
+    <td class="td-main"><b>{{ p.name }}</b>{% if p.barcode %} <span class="muted small">{{ p.barcode }}</span>{% endif %}</td>
+    <td data-label="{% translate 'Category' %}">{{ p.category|default:"—" }}</td>
+    <td data-label="{% translate 'Purchase price' %}" class="right nowrap">{{ p.buy_price|money }}</td>
+    <td data-label="{% translate 'Selling price' %}" class="right nowrap"><b>{{ p.sell_price|money }}</b></td>
+    <td data-label="{% translate 'Stock' %}" class="right"><span class="badge {% if p.stock <= 0 %}badge-bad{% elif p.is_low %}badge-warn{% else %}badge-ok{% endif %}">{{ p.stock }}</span></td>
+    <td class="right nowrap">
+      <button class="btn btn-sm" data-modal="stockModal" data-action="{% url 'product_stock' p.pk %}">{% icon "plus" 14 %} {% translate "Stock" %}</button>
+      <a class="btn btn-sm btn-icon" href="{% url 'product_edit' p.pk %}">{% icon "edit" 14 %}</a></td>
+  </tr>{% empty %}<tr><td colspan="6"><div class="empty">{% icon "package" 36 %}<div>{% translate "No product yet (protein, water, creatine, gloves…)." %}</div></div></td></tr>{% endfor %}</tbody>
+</table></div></div>
+<div class="modal" id="stockModal"><div class="modal-box"><form method="post">{% csrf_token %}
+  <div class="card-head"><h2>{% translate "Stock movement" %}</h2><button type="button" class="btn btn-icon btn-sm" data-close>{% icon "x" 16 %}</button></div>
+  <div class="card-body"><div class="field"><label>{% translate "Quantity (+ received, - lost/broken)" %}</label><input class="input" type="number" name="qty" value="10" required></div></div>
+  <div class="modal-foot"><button class="btn btn-primary">{% icon "check" 16 %} {% translate "Apply" %}</button></div>
+</form></div></div>
+{% endblock %}

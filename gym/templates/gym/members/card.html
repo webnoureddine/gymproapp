@@ -1,0 +1,35 @@
+{% load i18n static gym_tags %}{% get_current_language as LANG %}{% get_current_language_bidi as RTL %}<!doctype html>
+<html lang="{{ LANG }}" dir="{% if RTL %}rtl{% else %}ltr{% endif %}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% translate "Card" %} — {{ m.full_name }}</title>
+<link rel="stylesheet" href="{% static 'gym/fonts/fonts.css' %}">
+<style>
+  body { font-family: Inter, Cairo, Arial, sans-serif; background: #e9eef2; margin: 0; padding: 30px; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+  .card { width: 85.6mm; height: 54mm; border-radius: 4mm; overflow: hidden; background: linear-gradient(135deg, #0b1f1a, #0e3a2c 55%, #0e9f6e); color: #fff;
+    display: flex; padding: 4mm; gap: 3.5mm; box-shadow: 0 10px 30px rgba(0,0,0,.25); box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .left { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  .gym { font-weight: 800; font-size: 3.6mm; display: flex; align-items: center; gap: 2mm; }
+  .gym img { width: 6mm; height: 6mm; border-radius: 1.5mm; object-fit: cover; }
+  .photo { width: 18mm; height: 18mm; border-radius: 3mm; background: #ffffff22; object-fit: cover; display: grid; place-items: center; font-weight: 800; font-size: 6mm; margin-top: 3mm; }
+  .name { font-weight: 800; font-size: 3.8mm; margin-top: 2.5mm; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .meta { font-size: 2.6mm; opacity: .85; }
+  .right { width: 26mm; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5mm; }
+  .qr { background: #fff; padding: 1.5mm; border-radius: 2mm; width: 24mm; height: 24mm; box-sizing: border-box; }
+  .qr svg { width: 100%; height: 100%; display: block; }
+  .code { font-weight: 800; letter-spacing: .4mm; font-size: 3.2mm; }
+  .bar { display: flex; gap: 10px; }
+  button { font: inherit; font-weight: 600; padding: 10px 18px; border-radius: 10px; border: 0; background: #0e9f6e; color: #fff; cursor: pointer; }
+  @media print { body { background: #fff; padding: 0; } .bar { display: none; } .card { box-shadow: none; } @page { size: 85.6mm 54mm; margin: 0; } }
+</style></head>
+<body>
+<div class="card">
+  <div class="left">
+    <div class="gym">{% if gym.logo %}<img src="{{ gym.logo.url }}" alt="">{% endif %}{{ gym.name }}</div>
+    {% if m.photo %}<img class="photo" src="{{ m.photo.url }}" alt="">{% else %}<div class="photo">{{ m.initials }}</div>{% endif %}
+    <div class="name">{{ m.full_name }}</div>
+    <div class="meta">{% if sub %}{{ sub.plan_name }} · {% translate "until" %} {{ sub.end_date|date:"d/m/Y" }}{% endif %}</div>
+    <div class="meta">{% if gym.phone %}☎ {{ gym.phone }}{% endif %}{% if m.gender == 'F' and gym.women_schedule %} · {{ gym.women_schedule }}{% endif %}</div>
+  </div>
+  <div class="right"><div class="qr">{{ qr_svg|safe }}</div><div class="code">{{ m.code }}</div></div>
+</div>
+<div class="bar"><button onclick="window.print()">{% translate "Print" %}</button></div>
+</body></html>

@@ -1,0 +1,28 @@
+{% load i18n %}<script>
+/* subscription form: auto price, end date, total; "pay all" convenience */
+(function(){
+  var PLANS = { {% for p in plans %}"{{ p.pk }}": {price: {{ p.price|stringformat:"f" }}, days: {{ p.duration_days }}, sessions: {{ p.sessions }}, type: "{{ p.plan_type }}"}{% if not forloop.last %},{% endif %}{% endfor %} };
+  document.querySelectorAll('.sub-fields').forEach(function(box){
+    var q = function(n){ return box.querySelector('[name$="' + n + '"]'); };
+    var plan = q('plan'), start = q('start_date'), price = q('price'), disc = q('discount'), paid = q('paid'),
+        reg = q('add_registration'), ins = q('add_insurance'), endEl = box.querySelector('.sub-end'), tot = box.querySelector('.sub-total'),
+        fees = box.querySelector('.sub-fees'), touched = false;
+    paid.addEventListener('input', function(){ touched = true; });
+    function upd(fromPlan){
+      var p = PLANS[plan.value];
+      if (p && fromPlan) price.value = p.price;
+      if (p && start.value) { var d = new Date(start.value); d.setDate(d.getDate() + Math.max(p.days, 1) - 1);
+        endEl.value = d.toLocaleDateString('fr-FR') + (p.type === 'sessions' ? ' · ' + p.sessions + ' {% translate "sessions"|escapejs %}' : ''); }
+      var total = Math.max((+price.value || 0) - (+disc.value || 0), 0);
+      tot.textContent = money(total);
+      var extra = 0; if (reg && reg.checked) extra += +fees.dataset.reg; if (ins && ins.checked) extra += +fees.dataset.ins;
+      fees.textContent = extra ? '+ ' + money(extra) + ' {% translate "fees (registration / insurance) paid separately"|escapejs %}' : '';
+      if (!touched) paid.value = total;
+    }
+    [plan, start].forEach(function(e){ e.addEventListener('change', function(){ upd(e === plan); }); });
+    [price, disc].forEach(function(e){ e.addEventListener('input', function(){ upd(false); }); });
+    [reg, ins].forEach(function(e){ if (e) e.addEventListener('change', function(){ upd(false); }); });
+    if (!price.value && plan.value) upd(true); else upd(false);
+  });
+})();
+</script>

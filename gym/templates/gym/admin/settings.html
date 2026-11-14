@@ -1,0 +1,30 @@
+{% extends "gym/base.html" %}{% load i18n gym_tags %}
+{% block title %}{% translate "Settings" %}{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>{% translate "Settings" %}</h1></div>
+  <div class="actions"><a class="btn" href="{% url 'license' %}">{% icon "key" 18 %} <span class="lbl">{% translate "License" %}</span></a>
+    <a class="btn" href="{% url 'backup' %}">{% icon "database" 18 %} <span class="lbl">{% translate "Download backup" %}</span></a></div></div>
+<form method="post" enctype="multipart/form-data">{% csrf_token %}
+<div class="grid g-2">
+  <div class="card card-pad"><h2 style="margin-bottom:14px">{% translate "Gym identity (shown on receipts & cards)" %}</h2>
+    <div class="form-grid">
+      {% include "gym/_field.html" with f=form.name cls="full" %}{% include "gym/_field.html" with f=form.slogan cls="full" %}
+      {% include "gym/_field.html" with f=form.logo cls="full" %}
+      {% include "gym/_field.html" with f=form.address cls="full" %}{% include "gym/_field.html" with f=form.city %}{% include "gym/_field.html" with f=form.phone %}
+      {% include "gym/_field.html" with f=form.email %}{% include "gym/_field.html" with f=form.currency %}
+      {% include "gym/_field.html" with f=form.rc %}{% include "gym/_field.html" with f=form.nif %}{% include "gym/_field.html" with f=form.nis %}
+    </div></div>
+  <div class="stack">
+    <div class="card card-pad"><h2 style="margin-bottom:14px">{% translate "Rules" %}</h2>
+      <div class="form-grid">
+        {% include "gym/_field.html" with f=form.expiry_alert_days %}{% include "gym/_field.html" with f=form.women_schedule %}
+        {% include "gym/_field.html" with f=form.registration_fee %}{% include "gym/_field.html" with f=form.insurance_fee %}
+        {% include "gym/_field.html" with f=form.allow_checkin_with_debt cls="full" %}{% include "gym/_field.html" with f=form.allow_checkin_expired cls="full" %}
+      </div></div>
+    <div class="card card-pad"><h2 style="margin-bottom:14px">{% translate "Messages" %}</h2>
+      <div class="form-grid">{% include "gym/_field.html" with f=form.receipt_footer cls="full" %}{% include "gym/_field.html" with f=form.whatsapp_template cls="full" %}</div></div>
+    <button class="btn btn-primary btn-lg">{% icon "check" 18 %} {% translate "Save" %}</button>
+  </div>
+</div>
+</form>
+{% endblock %}

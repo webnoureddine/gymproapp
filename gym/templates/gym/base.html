@@ -1,0 +1,100 @@
+{% load static i18n gym_tags %}{% get_current_language as LANG %}{% get_current_language_bidi as RTL %}<!doctype html>
+<html lang="{{ LANG }}" dir="{% if RTL %}rtl{% else %}ltr{% endif %}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{% block title %}{% translate "Dashboard" %}{% endblock %} · {{ gym.name|default:"GymPro DZ" }}</title>
+<link rel="icon" href="{% static 'gym/img/icon.png' %}">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#0e9f6e">
+<link rel="apple-touch-icon" href="{% static 'gym/img/apple-touch-icon.png' %}">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}))}</script>
+<link rel="stylesheet" href="{% static 'gym/fonts/fonts.css' %}">
+<link rel="stylesheet" href="{% static 'gym/app.css' %}">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'light'}catch(e){}</script>
+{% block head %}{% endblock %}
+</head>
+<body>
+{% with url=request.resolver_match.url_name u=request.user %}
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-logo">{% if gym.logo %}<img src="{{ gym.logo.url }}" alt="">{% else %}{% icon "dumbbell" 22 %}{% endif %}</div>
+      <div><div class="brand-name">{{ gym.name }}</div><div class="brand-sub">GymPro DZ</div></div>
+    </div>
+    <nav class="nav">
+      <a href="{% url 'dashboard' %}" class="{% if url == 'dashboard' %}active{% endif %}">{% icon "home" %} {% translate "Dashboard" %}</a>
+      <a href="{% url 'checkin' %}" class="{% if url == 'checkin' %}active{% endif %}">{% icon "scan" %} {% translate "Check-in" %}</a>
+      <a href="{% url 'member_list' %}" class="{% if url|slice:':6' == 'member' %}active{% endif %}">{% icon "users" %} {% translate "Members" %}</a>
+      {% if can.payments or can.expenses %}<div class="nav-section">{% translate "Money" %}</div>{% endif %}
+      {% if can.payments %}<a href="{% url 'payment_list' %}" class="{% if url == 'payment_list' %}active{% endif %}">{% icon "wallet" %} {% translate "Payments" %}</a>{% endif %}
+      {% if can.debts %}<a href="{% url 'debt_list' %}" class="{% if url == 'debt_list' %}active{% endif %}">{% icon "alert" %} {% translate "Debts" %}</a>{% endif %}
+      {% if can.expenses %}<a href="{% url 'expense_list' %}" class="{% if url == 'expense_list' %}active{% endif %}">{% icon "receipt" %} {% translate "Expenses" %}</a>{% endif %}
+      {% if can.shop %}<div class="nav-section">{% translate "Shop" %}</div>{% endif %}
+      {% if can.shop %}<a href="{% url 'pos' %}" class="{% if url == 'pos' %}active{% endif %}">{% icon "cart" %} {% translate "Sell" %}</a>{% endif %}
+      {% if can.shop %}<a href="{% url 'sale_list' %}" class="{% if url == 'sale_list' %}active{% endif %}">{% icon "tag" %} {% translate "Sales" %}</a>{% endif %}
+      {% if can.shop_manage %}<a href="{% url 'product_list' %}" class="{% if url|slice:':7' == 'product' %}active{% endif %}">{% icon "package" %} {% translate "Products & stock" %}</a>{% endif %}
+      <div class="nav-section">{% translate "Management" %}</div>
+      {% if can.plans %}<a href="{% url 'plan_list' %}" class="{% if url|slice:':4' == 'plan' or url|slice:':8' == 'activity' %}active{% endif %}">{% icon "card" %} {% translate "Plans & prices" %}</a>{% endif %}
+      {% if can.reports %}<a href="{% url 'reports' %}" class="{% if url == 'reports' %}active{% endif %}">{% icon "chart" %} {% translate "Reports" %}</a>{% endif %}
+      {% if u.is_owner %}
+      <a href="{% url 'staff_list' %}" class="{% if url|slice:':5' == 'staff' %}active{% endif %}">{% icon "shield" %} {% translate "Staff" %}</a>
+      <a href="{% url 'settings' %}" class="{% if url == 'settings' or url == 'license' %}active{% endif %}">{% icon "settings" %} {% translate "Settings" %}</a>
+      {% endif %}
+    </nav>
+    <div class="side-foot">
+      <div class="avatar">{% if u.photo %}<img src="{{ u.photo.url }}" alt="">{% else %}{{ u.username|slice:":2"|upper }}{% endif %}</div>
+      <div class="who"><b>{{ u.display_name }}</b><span>{{ u.get_role_display }}</span></div>
+      <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="btn btn-icon" style="background:transparent;border-color:#1d3a32;color:#c9d6d2" title="{% translate 'Log out' %}">{% icon "logout" 18 "flip" %}</button></form>
+    </div>
+  </aside>
+  <div class="overlay" onclick="document.body.classList.remove('nav-open')"></div>
+
+  <div class="main">
+    <header class="topbar">
+      <button class="btn btn-icon menu-btn" onclick="document.body.classList.toggle('nav-open')" aria-label="Menu">{% icon "menu" %}</button>
+      <div class="search ac" data-ac="{% url 'member_search_api' %}" data-go="member">
+        {% icon "search" 18 %}
+        <input class="input" type="search" placeholder="{% translate 'Search a member (name, ID, phone)…' %}" autocomplete="off">
+        <div class="ac-list hidden"></div>
+      </div>
+      <div class="spacer"></div>
+      {% if license and license.state == "trial" %}<a href="{% url 'license' %}" class="badge badge-warn hide-sm">{% blocktranslate with d=license.days_left %}Trial: {{ d }} days left{% endblocktranslate %}</a>{% endif %}
+      <form method="post" action="{% url 'set_language' %}" class="row" style="gap:4px">{% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        <select name="language" class="input" style="width:auto;padding:7px 8px" onchange="this.form.submit()" aria-label="Language">
+          {% get_available_languages as LANGS %}{% for code, name in LANGS %}<option value="{{ code }}" {% if code == LANG %}selected{% endif %}>{{ code|upper }}</option>{% endfor %}
+        </select>
+      </form>
+      <button class="btn hidden hide-sm" id="installBtn" title="{% translate 'Install the app on this device' %}">{% icon "download" 18 %} {% translate "Install app" %}</button>
+      <button class="btn btn-icon" onclick="toggleTheme()" title="{% translate 'Dark / light mode' %}">{% icon "moon" 18 %}</button>
+      <a href="{% url 'member_create' %}" class="btn btn-primary hide-sm">{% icon "user-plus" 18 %} {% translate "New member" %}</a>
+    </header>
+
+    {% if license and not license.locked and license.days_left <= 5 %}
+    <a href="{% url 'license' %}" class="alert alert-warning" style="margin:12px 24px 0;text-decoration:none">{% icon "clock" 18 %}
+      <span>{% if license.state == "trial" %}{% blocktranslate count d=license.days_left %}Your free trial ends in {{ d }} day. Contact us to keep using the software.{% plural %}Your free trial ends in {{ d }} days. Contact us to keep using the software.{% endblocktranslate %}{% else %}{% blocktranslate count d=license.days_left %}Your subscription ends in {{ d }} day. Renew it to avoid any interruption.{% plural %}Your subscription ends in {{ d }} days. Renew it to avoid any interruption.{% endblocktranslate %}{% endif %}</span></a>
+    {% endif %}
+    {% if messages %}<div class="messages" id="messages">{% for m in messages %}<div class="alert alert-{{ m.tags }}">{% if m.tags == 'success' %}{% icon "check" 18 %}{% else %}{% icon "alert" 18 %}{% endif %}<span>{{ m }}</span></div>{% endfor %}</div>{% endif %}
+
+    <main class="content">{% block content %}{% endblock %}</main>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <a href="{% url 'dashboard' %}" class="{% if url == 'dashboard' %}on{% endif %}">{% icon "home" 22 %}{% translate "Home" %}</a>
+  <a href="{% url 'member_list' %}" class="{% if url|slice:':6' == 'member' %}on{% endif %}">{% icon "users" 22 %}{% translate "Members" %}</a>
+  <a href="{% url 'checkin' %}" class="fab {% if url == 'checkin' %}on{% endif %}">{% icon "scan" 26 %}{% translate "Check-in" %}</a>
+  <a href="{% url 'pos' %}" class="{% if url == 'pos' %}on{% endif %}">{% icon "cart" 22 %}{% translate "Sell" %}</a>
+  <a href="#" onclick="document.body.classList.toggle('nav-open');return false">{% icon "menu" 22 %}{% translate "More" %}</a>
+</nav>
+{% endwith %}
+<script>
+window.GYM = { currency: "{{ gym.currency|escapejs }}", csrf: "{{ csrf_token }}", lang: "{{ LANG }}",
+  t: { noResult: "{% translate 'No result'|escapejs %}", debt: "{% translate 'Debt'|escapejs %}" } };
+</script>
+<script src="{% static 'gym/app.js' %}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

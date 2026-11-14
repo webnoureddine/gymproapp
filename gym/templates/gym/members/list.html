@@ -1,0 +1,80 @@
+{% extends "gym/base.html" %}{% load i18n gym_tags %}
+{% block title %}{% translate "Members" %}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>{% translate "Members" %}</h1><div class="muted small">{{ total }} {% translate "results" %}</div></div>
+  <div class="actions">
+    <a class="btn" href="{% url 'member_export' %}{% qs page='' %}">{% icon "download" 18 %} <span class="lbl">Excel (CSV)</span></a>
+    {% if can.members %}<a class="btn btn-primary" href="{% url 'member_create' %}">{% icon "user-plus" 18 %} <span class="lbl">{% translate "New member" %}</span></a>{% endif %}
+  </div>
+</div>
+
+<div class="seg" style="margin-bottom:12px">
+  {% with st=request.GET.status %}
+  <a href="{% qs status='' debt='' page='' %}" class="{% if not st and not request.GET.debt %}on{% endif %}">{% translate "All" %}</a>
+  <a href="{% qs status='active' debt='' page='' %}" class="{% if st == 'active' %}on{% endif %}">{% translate "Active" %}</a>
+  <a href="{% qs status='expiring' debt='' page='' %}" class="{% if st == 'expiring' %}on{% endif %}">{% translate "Expiring soon" %}</a>
+  <a href="{% qs status='expired' debt='' page='' %}" class="{% if st == 'expired' %}on{% endif %}">{% translate "Expired" %}</a>
+  <a href="{% qs status='frozen' debt='' page='' %}" class="{% if st == 'frozen' %}on{% endif %}">{% translate "Paused" %}</a>
+  <a href="{% qs status='none' debt='' page='' %}" class="{% if st == 'none' %}on{% endif %}">{% translate "No subscription" %}</a>
+  <a href="{% qs debt='1' status='' page='' %}" class="{% if request.GET.debt %}on{% endif %}">{% translate "With debt" %}</a>
+  {% endwith %}
+</div>
+
+<form class="filters" method="get">
+  <input type="hidden" name="status" value="{{ request.GET.status }}">
+  <input class="input grow" type="search" name="q" value="{{ request.GET.q }}" placeholder="{% translate 'Name, ID, phone, ID card…' %}">
+  <select class="input" name="gender" onchange="this.form.submit()">
+    <option value="">{% translate "Gender" %}</option>
+    <option value="M" {% if request.GET.gender == 'M' %}selected{% endif %}>{% translate "Men" %}</option>
+    <option value="F" {% if request.GET.gender == 'F' %}selected{% endif %}>{% translate "Women" %}</option>
+  </select>
+  <select class="input" name="activity" onchange="this.form.submit()">
+    <option value="">{% translate "Activity" %}</option>
+    {% for a in activities %}<option value="{{ a.pk }}" {% if request.GET.activity == a.pk|stringformat:'s' %}selected{% endif %}>{{ a.name }}</option>{% endfor %}
+  </select>
+  <select class="input" name="sort" onchange="this.form.submit()">
+    <option value="new">{% translate "Newest" %}</option>
+    <option value="name" {% if request.GET.sort == 'name' %}selected{% endif %}>{% translate "Name A→Z" %}</option>
+    <option value="end" {% if request.GET.sort == 'end' %}selected{% endif %}>{% translate "Expiry date" %}</option>
+  </select>
+  <label class="row small" style="gap:6px"><input type="checkbox" class="checkbox" name="archived" value="1" {% if request.GET.archived %}checked{% endif %} onchange="this.form.submit()"> {% translate "Archived" %}</label>
+  <button class="btn">{% icon "search" 18 %}</button>
+</form>
+
+<div class="card">
+  {% if page.object_list %}
+  <div class="table-wrap">
+  <table class="table responsive">
+    <thead><tr><th>{% translate "Member" %}</th><th>{% translate "Phone" %}</th><th>{% translate "Plan" %}</th><th>{% translate "End date" %}</th><th>{% translate "Status" %}</th><th class="right">{% translate "Debt" %}</th><th></th></tr></thead>
+    <tbody>
+    {% for m in page.object_list %}{% with s=m.current_subscription due=m.balance_due %}
+      <tr>
+        <td class="td-main"><a class="person" href="{% url 'member_detail' m.pk %}">
+          <div class="avatar">{% if m.photo %}<img src="{{ m.photo.url }}" alt="" loading="lazy">{% else %}{{ m.initials }}{% endif %}</div>
+          <div style="min-width:0"><b>{{ m.full_name }}</b><span>{{ m.code }}{% if m.gender == 'F' %} · ♀{% endif %}</span></div></a></td>
+        <td data-label="{% translate 'Phone' %}" class="nowrap">{% if m.phone %}<a href="tel:{{ m.phone }}">{{ m.phone }}</a>{% else %}<span class="muted">—</span>{% endif %}</td>
+        <td data-label="{% translate 'Plan' %}"><span>{{ s.plan_name|default:"—" }}{% if s.sessions_left is not None %} <span class="muted small">({{ s.sessions_left }} {% translate "sess." %})</span>{% endif %}</span></td>
+        <td data-label="{% translate 'End date' %}" class="nowrap">{{ s.end_date|date:"d/m/Y"|default:"—" }}</td>
+        <td data-label="{% translate 'Status' %}">{% status_badge m.status %}</td>
+        <td data-label="{% translate 'Debt' %}" class="right nowrap">{% if due > 0 %}<b style="color:var(--bad)">{{ due|money }}</b>{% else %}<span class="muted">—</span>{% endif %}</td>
+        <td class="right nowrap">
+          {% if m.phone %}<a class="btn btn-sm btn-icon" target="_blank" rel="noopener" title="WhatsApp" href="{% wa_link m gym.whatsapp_template gym.name s.end_date|date:'d/m/Y' due %}">{% icon "message" 16 %}</a>{% endif %}
+          <a class="btn btn-sm" href="{% url 'member_detail' m.pk %}">{% icon "eye" 16 %}</a>
+        </td>
+      </tr>
+    {% endwith %}{% endfor %}
+    </tbody>
+  </table>
+  </div>
+  {% if page.has_other_pages %}<div class="pagination">
+    {% if page.has_previous %}<a class="btn btn-sm" href="{% qs page=page.previous_page_number %}">‹</a>{% endif %}
+    <span class="small muted">{{ page.number }} / {{ page.paginator.num_pages }}</span>
+    {% if page.has_next %}<a class="btn btn-sm" href="{% qs page=page.next_page_number %}">›</a>{% endif %}
+  </div>{% endif %}
+  {% else %}
+  <div class="empty">{% icon "users" 40 %}<div>{% translate "No member found." %}</div>
+    {% if can.members %}<a class="btn btn-primary" style="margin-top:12px" href="{% url 'member_create' %}">{% icon "user-plus" 18 %} {% translate "Add the first member" %}</a>{% endif %}</div>
+  {% endif %}
+</div>
+{% endblock %}

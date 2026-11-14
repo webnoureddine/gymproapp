@@ -1,0 +1,62 @@
+{% load i18n gym_tags %}{% get_current_language as LANG %}{% get_current_language_bidi as RTL %}<!doctype html>
+<html lang="{{ LANG }}" dir="{% if RTL %}rtl{% else %}ltr{% endif %}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% translate "Receipt" %} {{ p.number }}</title>
+<style>
+  body { font-family: "Segoe UI", Tahoma, Arial, sans-serif; margin: 0; background: #eef2f5; color: #111; }
+  .paper { background: #fff; margin: 20px auto; padding: 18px; box-shadow: 0 6px 24px rgba(0,0,0,.12); }
+  .ticket { width: 80mm; font-size: 12.5px; box-sizing: border-box; }
+  .a5 { width: 148mm; min-height: 190mm; font-size: 14px; padding: 14mm; box-sizing: border-box; }
+  .c { text-align: center; } h1 { font-size: 1.3em; margin: 4px 0; } .logo { max-height: 50px; }
+  .line { border-top: 1px dashed #999; margin: 10px 0; }
+  table { width: 100%; border-collapse: collapse; } td { padding: 3px 0; vertical-align: top; } td.r { text-align: end; white-space: nowrap; }
+  .tot td { font-size: 1.25em; font-weight: 800; padding-top: 6px; }
+  .muted { color: #555; font-size: .9em; }
+  .bar { text-align: center; margin: 14px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .bar a, .bar button { font: inherit; padding: 9px 16px; border-radius: 9px; border: 1px solid #ccd; background: #fff; cursor: pointer; text-decoration: none; color: #111; }
+  .bar .p { background: #0e9f6e; color: #fff; border-color: #0e9f6e; }
+  @media print { body { background: #fff; } .paper { box-shadow: none; margin: 0; } .bar { display: none; }
+    @page { margin: 0; {% if fmt == 'ticket' %}size: 80mm auto;{% else %}size: A5;{% endif %} } }
+</style></head>
+<body>
+<div class="bar"><button class="p" onclick="window.print()">🖨 {% translate "Print" %}</button>
+  <a href="?format=ticket">{% translate "Ticket 80mm" %}</a><a href="?format=a5">A5</a>
+  {% if p.member %}<a href="{% url 'member_detail' p.member_id %}">← {% translate "Back to member" %}</a>{% else %}<a href="{% url 'pos' %}">← {% translate "Back" %}</a>{% endif %}</div>
+<div class="paper {% if fmt == 'a5' %}a5{% else %}ticket{% endif %}">
+  <div class="c">
+    {% if gym.logo %}<img class="logo" src="{{ gym.logo.url }}" alt="">{% endif %}
+    <h1>{{ gym.name }}</h1>
+    {% if gym.address %}<div class="muted">{{ gym.address }}{% if gym.city %}, {{ gym.city }}{% endif %}</div>{% endif %}
+    {% if gym.phone %}<div class="muted">{% translate "Tel" %}: {{ gym.phone }}</div>{% endif %}
+    {% if gym.nif or gym.rc %}<div class="muted">{% if gym.rc %}RC: {{ gym.rc }} {% endif %}{% if gym.nif %}NIF: {{ gym.nif }} {% endif %}{% if gym.nis %}NIS: {{ gym.nis }}{% endif %}</div>{% endif %}
+  </div>
+  <div class="line"></div>
+  <table>
+    <tr><td>{% translate "Receipt" %}</td><td class="r"><b>{{ p.number }}</b></td></tr>
+    <tr><td>{% translate "Date" %}</td><td class="r">{{ p.paid_at|date:"d/m/Y H:i" }}</td></tr>
+    {% if p.member %}<tr><td>{% translate "Member" %}</td><td class="r">{{ p.member.full_name }} ({{ p.member.code }})</td></tr>{% endif %}
+  </table>
+  <div class="line"></div>
+  <table>
+    {% if sale %}
+      {% for i in sale.items.all %}<tr><td>{{ i.quantity }} × {{ i.product_name }}</td><td class="r">{{ i.line_total|money }}</td></tr>{% endfor %}
+      <tr><td><b>{% translate "Total" %}</b></td><td class="r"><b>{{ sale.total|money }}</b></td></tr>
+    {% elif sub %}
+      <tr><td>{{ sub.plan_name }}<div class="muted"><span dir="ltr">{{ sub.start_date|date:"d/m/Y" }} → {{ sub.end_date|date:"d/m/Y" }}</span>{% if sub.sessions_total %} · {{ sub.sessions_total }} {% translate "sessions" %}{% endif %}</div></td><td class="r">{{ sub.price|money }}</td></tr>
+      {% if sub.discount %}<tr><td>{% translate "Discount" %}</td><td class="r">-{{ sub.discount|money }}</td></tr>{% endif %}
+    {% else %}
+      <tr><td>{{ p.get_kind_display }}{% if p.note %}<div class="muted">{{ p.note }}</div>{% endif %}</td><td class="r">{{ p.amount|money }}</td></tr>
+    {% endif %}
+  </table>
+  <div class="line"></div>
+  <table>
+    <tr class="tot"><td>{% translate "Paid" %}</td><td class="r">{{ p.amount|money }}</td></tr>
+    <tr><td>{% translate "Method" %}</td><td class="r">{{ p.get_method_display }}{% if p.reference %} ({{ p.reference }}){% endif %}</td></tr>
+    {% if sub %}<tr><td>{% translate "Remaining to pay" %}</td><td class="r"><b>{{ sub.due|money }}</b></td></tr>{% endif %}
+    {% if sale and sale.due %}<tr><td>{% translate "Remaining to pay" %}</td><td class="r"><b>{{ sale.due|money }}</b></td></tr>{% endif %}
+    {% if p.received_by %}<tr><td>{% translate "Received by" %}</td><td class="r">{{ p.received_by.display_name }}</td></tr>{% endif %}
+  </table>
+  <div class="line"></div>
+  <div class="c muted">{{ gym.receipt_footer }}</div>
+  {% if fmt == 'a5' %}<div style="margin-top:40px;display:flex;justify-content:space-between"><span>{% translate "Signature" %}</span><span>{% translate "Stamp" %}</span></div>{% endif %}
+</div>
+</body></html>

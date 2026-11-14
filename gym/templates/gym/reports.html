@@ -1,0 +1,54 @@
+{% extends "gym/base.html" %}{% load i18n static gym_tags %}
+{% block title %}{% translate "Reports" %}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>{% translate "Reports" %}</h1><div class="muted small"><span dir="ltr">{{ start|date:"d/m/Y" }} → {{ end|date:"d/m/Y" }}</span></div></div>
+  <div class="actions"><a class="btn" href="{% qs export=1 %}">{% icon "download" 18 %} <span class="lbl">Excel (CSV)</span></a><button class="btn" onclick="print()">{% icon "print" 18 %} <span class="lbl">{% translate "Print" %}</span></button></div>
+</div>
+<div class="no-print">{% include "gym/_period.html" %}</div>
+<div class="print-only"><h2>{{ gym.name }} — {% translate "Report" %} <span dir="ltr">{{ start|date:"d/m/Y" }} → {{ end|date:"d/m/Y" }}</span></h2></div>
+
+<div class="grid g-4" style="margin-bottom:16px">
+  <div class="card kpi"><div class="ic ic-green">{% icon "wallet" 22 %}</div><div><div class="lbl">{% translate "Revenue" %}</div><div class="val">{{ revenue|money }}</div></div></div>
+  <div class="card kpi"><div class="ic ic-amber">{% icon "receipt" 22 %}</div><div><div class="lbl">{% translate "Expenses" %}</div><div class="val">{{ expenses|money }}</div></div></div>
+  <div class="card kpi"><div class="ic {% if profit < 0 %}ic-red{% else %}ic-blue{% endif %}">{% icon "trending" 22 %}</div><div><div class="lbl">{% translate "Profit" %}</div><div class="val">{{ profit|money }}</div></div></div>
+  <div class="card kpi"><div class="ic ic-blue">{% icon "users" 22 %}</div><div><div class="lbl">{% translate "New members" %}</div><div class="val">{{ new_members }}</div><div class="sub">{{ renewals }} {% translate "renewals" %}</div></div></div>
+</div>
+
+<div class="card" style="margin-bottom:16px"><div class="card-head"><h2>{% translate "Daily revenue" %}</h2></div><div class="card-body" style="height:260px"><canvas id="cDaily"></canvas></div></div>
+
+<div class="grid g-2" style="margin-bottom:16px">
+  <div class="card"><div class="card-head"><h2>{% translate "Revenue by type" %}</h2></div><div class="card-body" style="height:220px"><canvas id="cKinds"></canvas></div>
+    <ul class="list">{% for k, v in by_kind %}<li><span class="grow">{{ k }}</span><b>{{ v|money }}</b></li>{% endfor %}</ul></div>
+  <div class="card"><div class="card-head"><h2>{% translate "Revenue by method" %}</h2></div><div class="card-body" style="height:220px"><canvas id="cMethods"></canvas></div>
+    <ul class="list">{% for k, v in by_method %}<li><span class="grow">{{ k }}</span><b>{{ v|money }}</b></li>{% endfor %}</ul></div>
+</div>
+
+<div class="grid g-2" style="margin-bottom:16px">
+  <div class="card"><div class="card-head"><h2>{% translate "Peak hours" %}</h2><span class="small muted">{{ visits }} {% translate "visits" %} · {{ unique_visitors }} {% translate "members" %}</span></div><div class="card-body" style="height:220px"><canvas id="cHours"></canvas></div></div>
+  <div class="card"><div class="card-head"><h2>{% translate "Visits by day" %}</h2></div><div class="card-body" style="height:220px"><canvas id="cWdays"></canvas></div></div>
+</div>
+
+<div class="grid g-3">
+  <div class="card"><div class="card-head"><h2>{% translate "Best plans" %}</h2></div>
+    <ul class="list">{% for r in by_plan %}<li><span class="grow">{{ r.subscription__plan_name }} <span class="muted small">({{ r.n }})</span></span><b>{{ r.s|money }}</b></li>{% empty %}<li class="empty small">—</li>{% endfor %}</ul></div>
+  <div class="card"><div class="card-head"><h2>{% translate "Expenses by category" %}</h2></div>
+    <ul class="list">{% for r in by_cat %}<li><span class="grow">{{ r.category__name|default:"—" }}</span><b>{{ r.s|money }}</b></li>{% empty %}<li class="empty small">—</li>{% endfor %}</ul></div>
+  <div class="card"><div class="card-head"><h2>{% translate "Cash collected by staff" %}</h2></div>
+    <ul class="list">{% for r in by_staff %}<li><span class="grow">{{ r.received_by__username|default:"—" }} <span class="muted small">({{ r.n }})</span></span><b>{{ r.s|money }}</b></li>{% empty %}<li class="empty small">—</li>{% endfor %}</ul>
+    {% if top_products %}<div class="card-head" style="border-top:1px solid var(--border)"><h2>{% translate "Top products" %}</h2></div>
+    <ul class="list">{% for r in top_products %}<li><span class="grow">{{ r.product_name }}</span><b>{{ r.q }}</b></li>{% endfor %}</ul>{% endif %}
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'gym/vendor/chart.umd.min.js' %}"></script>
+<script>
+setupChart(); var C = chartColors(), D = {{ charts|safe }};
+function bar(id, d, color){ new Chart(document.getElementById(id), {type: 'bar', data: {labels: d.labels, datasets: [{data: d.values, backgroundColor: color || C.primary, borderRadius: 5}]}, options: {plugins: {legend: {display: false}}, scales: {y: {beginAtZero: true, ticks: {precision: 0}}}}}); }
+function donut(id, d){ new Chart(document.getElementById(id), {type: 'doughnut', data: {labels: d.labels, datasets: [{data: d.values, backgroundColor: C.palette, borderWidth: 0}]}, options: {cutout: '62%', plugins: {legend: {position: 'right'}, tooltip: {callbacks: {label: function(c){ return c.label + ': ' + money(c.raw); }}}}}}); }
+new Chart(document.getElementById('cDaily'), {type: 'line', data: {labels: D.daily.labels, datasets: [{data: D.daily.values, borderColor: C.primary, backgroundColor: 'rgba(14,159,110,.12)', fill: true, tension: .3, pointRadius: 2}]},
+  options: {plugins: {legend: {display: false}, tooltip: {callbacks: {label: function(c){ return money(c.raw); }}}}, scales: {y: {beginAtZero: true}}}});
+donut('cKinds', D.kinds); donut('cMethods', D.methods); bar('cHours', D.hours); bar('cWdays', D.wdays, '#2563eb');
+</script>
+{% endblock %}

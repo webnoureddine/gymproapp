@@ -1,0 +1,15 @@
+{% load i18n gym_tags %}<div class="form-grid sub-fields">
+  {% include "gym/_field.html" with f=f.plan cls="full" %}
+  {% include "gym/_field.html" with f=f.start_date %}
+  <div class="field"><label>{% translate "End date" %}</label><input class="input sub-end" type="text" readonly tabindex="-1"></div>
+  {% include "gym/_field.html" with f=f.price %}
+  {% include "gym/_field.html" with f=f.discount %}
+  <div class="full sub-box row between"><span class="muted">{% translate "Total to pay" %}</span><span class="big-num sub-total">0</span></div>
+  {% include "gym/_field.html" with f=f.paid %}
+  {% include "gym/_field.html" with f=f.method %}
+  {% include "gym/_field.html" with f=f.reference %}
+  {% include "gym/_field.html" with f=f.notes %}
+  {% if gym.registration_fee > 0 %}{% include "gym/_field.html" with f=f.add_registration %}{% endif %}
+  {% if gym.insurance_fee > 0 %}{% include "gym/_field.html" with f=f.add_insurance %}{% endif %}
+  <div class="full row small muted sub-fees" data-reg="{{ gym.registration_fee }}" data-ins="{{ gym.insurance_fee }}"></div>
+</div>

@@ -1,0 +1,1287 @@
+#
+msgid ""
+msgstr ""
+"Language: fr\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Page not found."
+msgstr "Page introuvable."
+
+msgid "Access denied"
+msgstr "Accès refusé"
+
+msgid "Your role does not allow this page. Ask the owner."
+msgstr ""
+"Votre rôle ne permet pas d'accéder à cette page. Demandez au propriétaire."
+
+msgid "Back to dashboard"
+msgstr "Retour au tableau de bord"
+
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+msgid "Check-in"
+msgstr "Pointage"
+
+msgid "Sell"
+msgstr "Vendre"
+
+msgid "New member"
+msgstr "Nouvel adhérent"
+
+msgid "Active members"
+msgstr "Adhérents actifs"
+
+msgid "this month"
+msgstr "ce mois-ci"
+
+msgid "Expiring soon"
+msgstr "Expire bientôt"
+
+msgid "expired"
+msgstr "expirés"
+
+msgid "Visits today"
+msgstr "Visites aujourd'hui"
+
+msgid "check-ins"
+msgstr "entrées"
+
+msgid "Unpaid debts"
+msgstr "Dettes impayées"
+
+msgid "members"
+msgstr "adhérents"
+
+msgid "Revenue today"
+msgstr "Recette du jour"
+
+msgid "Revenue this month"
+msgstr "Recette du mois"
+
+msgid "Expenses this month"
+msgstr "Dépenses du mois"
+
+msgid "Profit this month"
+msgstr "Bénéfice du mois"
+
+msgid "Revenue vs expenses (12 months)"
+msgstr "Recettes vs dépenses (12 mois)"
+
+msgid "Reports"
+msgstr "Rapports"
+
+msgid "Expiring soon — remind them"
+msgstr "Expirent bientôt — rappelez-les"
+
+msgid "See all"
+msgstr "Voir tout"
+
+msgid "sessions left"
+msgstr "séances restantes"
+
+msgid "Renew"
+msgstr "Renouveler"
+
+msgid "No subscription expires in the next days."
+msgstr "Aucun abonnement n'expire dans les prochains jours."
+
+msgid "Visits (14 days)"
+msgstr "Visites (14 jours)"
+
+msgid "Today's check-ins"
+msgstr "Entrées du jour"
+
+msgid "Open"
+msgstr "Ouvrir"
+
+msgid "No visit yet today."
+msgstr "Aucune visite aujourd'hui."
+
+msgid "Low stock"
+msgstr "Stock faible"
+
+msgid "Revenue"
+msgstr "Recettes"
+
+msgid "Expenses"
+msgstr "Dépenses"
+
+msgid "Hello %(name)s 👋"
+msgstr "Bonjour %(name)s 👋"
+
+msgid "%(d)s day left"
+msgid_plural "%(d)s days left"
+msgstr[0] "%(d)s jour restant"
+msgstr[1] "%(d)s jours restants"
+
+msgid "Sign in"
+msgstr "Connexion"
+
+msgid "Manage your gym simply, from reception to accounting."
+msgstr "Gérez votre salle simplement, de l'accueil à la comptabilité."
+
+msgid "Members, subscriptions and sessions"
+msgstr "Adhérents, abonnements et séances"
+
+msgid "Fast check-in with QR card"
+msgstr "Pointage rapide avec carte QR"
+
+msgid "Payments, debts and receipts in DA"
+msgstr "Paiements, dettes et reçus en DA"
+
+msgid "Shop, stock, expenses and reports"
+msgstr "Boutique, stock, dépenses et rapports"
+
+msgid "Wrong username or password."
+msgstr "Nom d'utilisateur ou mot de passe incorrect."
+
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+msgid "Password"
+msgstr "Mot de passe"
+
+msgid "Receipt"
+msgstr "Reçu"
+
+msgid "Print"
+msgstr "Imprimer"
+
+msgid "Ticket 80mm"
+msgstr "Ticket 80mm"
+
+msgid "Back to member"
+msgstr "Retour à l'adhérent"
+
+msgid "Back"
+msgstr "Retour"
+
+msgid "Tel"
+msgstr "Tél"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Member"
+msgstr "Adhérent"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "sessions"
+msgstr "séances"
+
+msgid "Discount"
+msgstr "Remise"
+
+msgid "Paid"
+msgstr "Payé"
+
+msgid "Method"
+msgstr "Mode de paiement"
+
+msgid "Remaining to pay"
+msgstr "Reste à payer"
+
+msgid "Received by"
+msgstr "Encaissé par"
+
+msgid "Signature"
+msgstr "Signature"
+
+msgid "Stamp"
+msgstr "Cachet"
+
+msgid "Today"
+msgstr "Aujourd'hui"
+
+msgid "Yesterday"
+msgstr "Hier"
+
+msgid "This week"
+msgstr "Cette semaine"
+
+msgid "This month"
+msgstr "Ce mois"
+
+msgid "Last month"
+msgstr "Mois dernier"
+
+msgid "This year"
+msgstr "Cette année"
+
+msgid "Apply"
+msgstr "Appliquer"
+
+msgid "Scan the member card, type the ID, or search by name."
+msgstr "Scannez la carte, tapez l'ID ou cherchez par nom."
+
+msgid "members today"
+msgstr "adhérents aujourd'hui"
+
+msgid "refused"
+msgstr "refusés"
+
+msgid "Scan card or type ID / name…"
+msgstr "Scanner la carte ou taper l'ID / le nom…"
+
+msgid "Scan with camera"
+msgstr "Scanner avec la caméra"
+
+msgid "days left"
+msgstr "jours restants"
+
+msgid "until"
+msgstr "jusqu'au"
+
+msgid "Debt"
+msgstr "Dette"
+
+msgid "Let in anyway"
+msgstr "Laisser entrer quand même"
+
+msgid "Open profile"
+msgstr "Ouvrir la fiche"
+
+msgid "ACCESS GRANTED"
+msgstr "ACCÈS AUTORISÉ"
+
+msgid "ACCESS DENIED"
+msgstr "ACCÈS REFUSÉ"
+
+msgid "Insurance expired"
+msgstr "Assurance expirée"
+
+msgid "Report"
+msgstr "Rapport"
+
+msgid "Profit"
+msgstr "Bénéfice"
+
+msgid "New members"
+msgstr "Nouveaux adhérents"
+
+msgid "renewals"
+msgstr "renouvellements"
+
+msgid "Daily revenue"
+msgstr "Recette journalière"
+
+msgid "Revenue by type"
+msgstr "Recettes par type"
+
+msgid "Revenue by method"
+msgstr "Recettes par mode de paiement"
+
+msgid "Peak hours"
+msgstr "Heures de pointe"
+
+msgid "visits"
+msgstr "visites"
+
+msgid "Visits by day"
+msgstr "Visites par jour"
+
+msgid "Best plans"
+msgstr "Meilleures offres"
+
+msgid "Expenses by category"
+msgstr "Dépenses par catégorie"
+
+msgid "Cash collected by staff"
+msgstr "Encaissements par employé"
+
+msgid "Top products"
+msgstr "Produits les plus vendus"
+
+msgid "Members"
+msgstr "Adhérents"
+
+msgid "Money"
+msgstr "Finances"
+
+msgid "Payments"
+msgstr "Paiements"
+
+msgid "Debts"
+msgstr "Dettes"
+
+msgid "Shop"
+msgstr "Boutique"
+
+msgid "Sales"
+msgstr "Ventes"
+
+msgid "Products & stock"
+msgstr "Produits & stock"
+
+msgid "Management"
+msgstr "Gestion"
+
+msgid "Plans & prices"
+msgstr "Offres & tarifs"
+
+msgid "Staff"
+msgstr "Personnel"
+
+msgid "Settings"
+msgstr "Paramètres"
+
+msgid "Home"
+msgstr "Accueil"
+
+msgid "More"
+msgstr "Plus"
+
+msgid "Log out"
+msgstr "Déconnexion"
+
+msgid "Search a member (name, ID, phone)…"
+msgstr "Chercher un adhérent (nom, ID, téléphone)…"
+
+msgid "Dark / light mode"
+msgstr "Mode sombre / clair"
+
+msgid "No result"
+msgstr "Aucun résultat"
+
+msgid "Trial: %(d)s days left"
+msgstr "Essai : %(d)s jours restants"
+
+msgid "Monthly, quarterly, yearly, session packs, women-only…"
+msgstr "Mensuel, trimestriel, annuel, cartes de séances, femmes…"
+
+msgid "New activity"
+msgstr "Nouvelle activité"
+
+msgid "New plan"
+msgstr "Nouvelle offre"
+
+msgid "Women"
+msgstr "Femmes"
+
+msgid "Men"
+msgstr "Hommes"
+
+msgid "Inactive"
+msgstr "Inactif"
+
+msgid "subs."
+msgstr "abon."
+
+msgid "valid"
+msgstr "valable"
+
+msgid "days"
+msgstr "jours"
+
+msgid "Edit"
+msgstr "Modifier"
+
+msgid "No plan yet. Create your first offer."
+msgstr "Aucune offre. Créez votre première offre."
+
+msgid "Activities"
+msgstr "Activités"
+
+msgid "Delete this plan?"
+msgstr "Supprimer cette offre ?"
+
+msgid "new"
+msgstr "nouveau"
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Save"
+msgstr "Enregistrer"
+
+msgid "Each employee has an account and a role."
+msgstr "Chaque employé a son compte et son rôle."
+
+msgid "New account"
+msgstr "Nouveau compte"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Role"
+msgstr "Rôle"
+
+msgid "Phone"
+msgstr "Téléphone"
+
+msgid "Last login"
+msgstr "Dernière connexion"
+
+msgid "Disabled"
+msgstr "Désactivé"
+
+msgid "What each role can do"
+msgstr "Ce que chaque rôle peut faire"
+
+msgid "Owner"
+msgstr "Propriétaire"
+
+msgid "Everything, including settings, staff, deleting payments."
+msgstr "Tout, y compris paramètres, personnel et suppression des paiements."
+
+msgid "Manager"
+msgstr "Gérant"
+
+msgid "Members, payments, plans, shop & stock, expenses, reports."
+msgstr "Adhérents, paiements, offres, boutique & stock, dépenses, rapports."
+
+msgid "Receptionist"
+msgstr "Réceptionniste"
+
+msgid "Members, check-in, payments, shop sales, debts."
+msgstr "Adhérents, pointage, paiements, ventes boutique, dettes."
+
+msgid "Coach"
+msgstr "Coach"
+
+msgid "View members and check-in only."
+msgstr "Consulter les adhérents et pointage uniquement."
+
+msgid "License"
+msgstr "Licence"
+
+msgid "The saved key is not valid for this installation."
+msgstr "La clé enregistrée n'est pas valide pour cette installation."
+
+msgid ""
+"Your license has expired. Enter a new key to continue using the software."
+msgstr ""
+"Votre licence a expiré. Entrez une nouvelle clé pour continuer à utiliser le"
+" logiciel."
+
+msgid "Installation ID (send it to your vendor)"
+msgstr "ID d'installation (à envoyer à votre fournisseur)"
+
+msgid "Activate"
+msgstr "Activer"
+
+msgid "Ask the gym owner to activate the license."
+msgstr "Demandez au propriétaire d'activer la licence."
+
+msgid "Licensed until %(d)s"
+msgstr "Licence valable jusqu'au %(d)s"
+
+msgid "Free trial — %(n)s days left."
+msgstr "Essai gratuit — %(n)s jours restants."
+
+msgid "Download backup"
+msgstr "Télécharger une sauvegarde"
+
+msgid "Gym identity (shown on receipts & cards)"
+msgstr "Identité de la salle (sur reçus & cartes)"
+
+msgid "Rules"
+msgstr "Règles"
+
+msgid "Messages"
+msgstr "Messages"
+
+msgid "Members who still owe money (subscriptions or shop)."
+msgstr "Adhérents qui doivent encore de l'argent (abonnements ou boutique)."
+
+msgid "Total to collect"
+msgstr "Total à encaisser"
+
+msgid "Members with debt"
+msgstr "Adhérents endettés"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Collect"
+msgstr "Encaisser"
+
+msgid "No debt. Well done!"
+msgstr "Aucune dette. Bravo !"
+
+msgid "Search…"
+msgstr "Rechercher…"
+
+msgid "Total collected"
+msgstr "Total encaissé"
+
+msgid "payments"
+msgstr "paiements"
+
+msgid "All methods"
+msgstr "Tous les modes"
+
+msgid "All types"
+msgstr "Tous les types"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Amount"
+msgstr "Montant"
+
+msgid "Walk-in"
+msgstr "Client de passage"
+
+msgid "No payment for this period."
+msgstr "Aucun paiement pour cette période."
+
+msgid "Receipt, member, reference…"
+msgstr "Reçu, adhérent, référence…"
+
+msgid "Delete this payment?"
+msgstr "Supprimer ce paiement ?"
+
+msgid "Rent, electricity, salaries, equipment…"
+msgstr "Loyer, électricité, salaires, matériel…"
+
+msgid "Add expense"
+msgstr "Ajouter une dépense"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Category"
+msgstr "Catégorie"
+
+msgid "No expense for this period."
+msgstr "Aucune dépense pour cette période."
+
+msgid "By category"
+msgstr "Par catégorie"
+
+msgid "Delete?"
+msgstr "Supprimer ?"
+
+msgid "results"
+msgstr "résultats"
+
+msgid "All"
+msgstr "Tous"
+
+msgid "Active"
+msgstr "Actif"
+
+msgid "Expired"
+msgstr "Expiré"
+
+msgid "Paused"
+msgstr "En pause"
+
+msgid "No subscription"
+msgstr "Sans abonnement"
+
+msgid "With debt"
+msgstr "Avec dette"
+
+msgid "Gender"
+msgstr "Sexe"
+
+msgid "Activity"
+msgstr "Activité"
+
+msgid "Newest"
+msgstr "Plus récents"
+
+msgid "Name A→Z"
+msgstr "Nom A→Z"
+
+msgid "Expiry date"
+msgstr "Date d'expiration"
+
+msgid "Archived"
+msgstr "Archivés"
+
+msgid "Plan"
+msgstr "Offre"
+
+msgid "End date"
+msgstr "Date de fin"
+
+msgid "sess."
+msgstr "séan."
+
+msgid "No member found."
+msgstr "Aucun adhérent trouvé."
+
+msgid "Add the first member"
+msgstr "Ajouter le premier adhérent"
+
+msgid "Name, ID, phone, ID card…"
+msgstr "Nom, ID, téléphone, CNI…"
+
+msgid "Health & emergency"
+msgstr "Santé & urgence"
+
+msgid "Other"
+msgstr "Autre"
+
+msgid "Add a subscription now"
+msgstr "Ajouter un abonnement maintenant"
+
+msgid "Webcam"
+msgstr "Webcam"
+
+msgid "Take photo"
+msgstr "Prendre la photo"
+
+msgid "Upload"
+msgstr "Importer"
+
+msgid "Card"
+msgstr "Carte"
+
+msgid "Total to pay"
+msgstr "Total à payer"
+
+msgid "Member profile"
+msgstr "Fiche adhérent"
+
+msgid "This member is archived."
+msgstr "Cet adhérent est archivé."
+
+msgid "Medical notes"
+msgstr "Notes médicales"
+
+msgid "years"
+msgstr "ans"
+
+msgid "since"
+msgstr "depuis le"
+
+msgid "Current subscription"
+msgstr "Abonnement en cours"
+
+msgid "Resume"
+msgstr "Reprendre"
+
+msgid "Pause"
+msgstr "Pause"
+
+msgid "Days +/-"
+msgstr "Jours +/-"
+
+msgid "Sessions left"
+msgstr "Séances restantes"
+
+msgid "Days left"
+msgstr "Jours restants"
+
+msgid "Paused since"
+msgstr "En pause depuis"
+
+msgid "Pay"
+msgstr "Payer"
+
+msgid "No subscription yet."
+msgstr "Pas encore d'abonnement."
+
+msgid "Add a subscription"
+msgstr "Ajouter un abonnement"
+
+msgid "Subscriptions"
+msgstr "Abonnements"
+
+msgid "Visits"
+msgstr "Visites"
+
+msgid "Purchases"
+msgstr "Achats"
+
+msgid "Period"
+msgstr "Période"
+
+msgid "Other payment (insurance, fee…)"
+msgstr "Autre paiement (assurance, frais…)"
+
+msgid "Entered"
+msgstr "Entré"
+
+msgid "Refused"
+msgstr "Refusé"
+
+msgid "Total debt"
+msgstr "Dette totale"
+
+msgid "Information"
+msgstr "Informations"
+
+msgid "Visits this month"
+msgstr "Visites ce mois"
+
+msgid "Insurance"
+msgstr "Assurance"
+
+msgid "Birth date"
+msgstr "Date de naissance"
+
+msgid "Second phone"
+msgstr "Deuxième téléphone"
+
+msgid "Email"
+msgstr "E-mail"
+
+msgid "Address"
+msgstr "Adresse"
+
+msgid "ID card number"
+msgstr "N° carte d'identité"
+
+msgid "Blood type"
+msgstr "Groupe sanguin"
+
+msgid "Emergency"
+msgstr "Urgence"
+
+msgid "Restore"
+msgstr "Restaurer"
+
+msgid "Archive"
+msgstr "Archiver"
+
+msgid "Delete"
+msgstr "Supprimer"
+
+msgid "New subscription / renewal"
+msgstr "Nouvel abonnement / renouvellement"
+
+msgid "Save & print"
+msgstr "Enregistrer & imprimer"
+
+msgid "Record a payment"
+msgstr "Enregistrer un paiement"
+
+msgid "Other payment"
+msgstr "Autre paiement"
+
+msgid "Add or remove days"
+msgstr "Ajouter ou retirer des jours"
+
+msgid "Days (e.g. 7 or -3)"
+msgstr "Jours (ex. 7 ou -3)"
+
+msgid "Useful for a gift, a closure (Ramadan, holidays) or a correction."
+msgstr ""
+"Utile pour un cadeau, une fermeture (Ramadan, vacances) ou une correction."
+
+msgid "Force entry anyway?"
+msgstr "Forcer l'entrée quand même ?"
+
+msgid "Pause this subscription? Remaining days are kept."
+msgstr "Mettre cet abonnement en pause ? Les jours restants sont conservés."
+
+msgid "Cancel this subscription?"
+msgstr "Annuler cet abonnement ?"
+
+msgid "Delete permanently this member and all his history?"
+msgstr "Supprimer définitivement cet adhérent et tout son historique ?"
+
+msgid "fees (registration / insurance) paid separately"
+msgstr "de frais (inscription / assurance) payés à part"
+
+msgid "Click products or scan a barcode."
+msgstr "Cliquez sur les produits ou scannez un code-barres."
+
+msgid "No product yet."
+msgstr "Aucun produit."
+
+msgid "Add products"
+msgstr "Ajouter des produits"
+
+msgid "Cart"
+msgstr "Panier"
+
+msgid "Cart is empty"
+msgstr "Le panier est vide"
+
+msgid "Member (optional — allows paying later)"
+msgstr "Adhérent (optionnel — permet de payer plus tard)"
+
+msgid "Amount paid"
+msgstr "Montant payé"
+
+msgid "Print receipt"
+msgstr "Imprimer le reçu"
+
+msgid "Validate sale"
+msgstr "Valider la vente"
+
+msgid "Stock"
+msgstr "Stock"
+
+msgid "Search product or scan barcode…"
+msgstr "Chercher un produit ou scanner le code-barres…"
+
+msgid "Walk-in customer"
+msgstr "Client de passage"
+
+msgid "New sale"
+msgstr "Nouvelle vente"
+
+msgid "Sales total"
+msgstr "Total des ventes"
+
+msgid "Gross margin"
+msgstr "Marge brute"
+
+msgid "Products"
+msgstr "Produits"
+
+msgid "Customer"
+msgstr "Client"
+
+msgid "No sale for this period."
+msgstr "Aucune vente pour cette période."
+
+msgid "Stock value (purchase price)"
+msgstr "Valeur du stock (prix d'achat)"
+
+msgid "New product"
+msgstr "Nouveau produit"
+
+msgid "Low stock only"
+msgstr "Stock faible uniquement"
+
+msgid "Product"
+msgstr "Produit"
+
+msgid "Purchase price"
+msgstr "Prix d'achat"
+
+msgid "Selling price"
+msgstr "Prix de vente"
+
+msgid "No product yet (protein, water, creatine, gloves…)."
+msgstr "Aucun produit (protéine, eau, créatine, gants…)."
+
+msgid "Stock movement"
+msgstr "Mouvement de stock"
+
+msgid "Quantity (+ received, - lost/broken)"
+msgstr "Quantité (+ reçue, - perdue/cassée)"
+
+msgid "Name, barcode, category…"
+msgstr "Nom, code-barres, catégorie…"
+
+msgid "Gym name"
+msgstr "Nom de la salle"
+
+msgid "Logo"
+msgstr "Logo"
+
+msgid "Slogan"
+msgstr "Slogan"
+
+msgid "City / Wilaya"
+msgstr "Ville / Wilaya"
+
+msgid "Currency"
+msgstr "Devise"
+
+msgid "Warn X days before expiry"
+msgstr "Alerter X jours avant l'expiration"
+
+msgid "Annual insurance fee"
+msgstr "Frais d'assurance annuelle"
+
+msgid "Registration fee (new members)"
+msgstr "Frais d'inscription (nouveaux adhérents)"
+
+msgid "Allow entry when member has debt"
+msgstr "Autoriser l'entrée si l'adhérent a une dette"
+
+msgid "Allow entry when subscription expired"
+msgstr "Autoriser l'entrée si l'abonnement a expiré"
+
+msgid "Women hours (shown on cards)"
+msgstr "Horaires femmes (affichés sur les cartes)"
+
+msgid "Receipt footer"
+msgstr "Pied du reçu"
+
+msgid "WhatsApp reminder message"
+msgstr "Message de rappel WhatsApp"
+
+msgid "Variables: {name} {gym} {date} {debt}"
+msgstr "Variables : {name} {gym} {date} {debt}"
+
+msgid "License key"
+msgstr "Clé de licence"
+
+msgid "Installation ID"
+msgstr "ID d'installation"
+
+msgid "Gym settings"
+msgstr "Paramètres de la salle"
+
+msgid "Color"
+msgstr "Couleur"
+
+msgid "By duration (days)"
+msgstr "Par durée (jours)"
+
+msgid "By number of sessions"
+msgstr "Par nombre de séances"
+
+msgid "Everyone"
+msgstr "Tout le monde"
+
+msgid "Duration (days)"
+msgstr "Durée (jours)"
+
+msgid "Number of sessions"
+msgstr "Nombre de séances"
+
+msgid "Only for session plans"
+msgstr "Uniquement pour les cartes de séances"
+
+msgid "Price"
+msgstr "Prix"
+
+msgid "For"
+msgstr "Pour"
+
+msgid "Plans"
+msgstr "Offres"
+
+msgid "Male"
+msgstr "Homme"
+
+msgid "Female"
+msgstr "Femme"
+
+msgid "Member ID"
+msgstr "ID adhérent"
+
+msgid "First name"
+msgstr "Prénom"
+
+msgid "Last name"
+msgstr "Nom"
+
+msgid "Photo"
+msgstr "Photo"
+
+msgid "Emergency contact"
+msgstr "Contact d'urgence"
+
+msgid "Emergency phone"
+msgstr "Téléphone d'urgence"
+
+msgid "Notes"
+msgstr "Notes"
+
+msgid "Insurance valid until"
+msgstr "Assurance valable jusqu'au"
+
+msgid "Join date"
+msgstr "Date d'inscription"
+
+msgid "Start date"
+msgstr "Date de début"
+
+msgid "Subscription"
+msgstr "Abonnement"
+
+msgid "Barcode"
+msgstr "Code-barres"
+
+msgid "Low stock alert"
+msgstr "Alerte stock faible"
+
+msgid "Cash"
+msgstr "Espèces"
+
+msgid "Bank transfer"
+msgstr "Virement bancaire"
+
+msgid "Cheque"
+msgstr "Chèque"
+
+msgid "Registration fee"
+msgstr "Frais d'inscription"
+
+msgid "Shop sale"
+msgstr "Vente boutique"
+
+msgid "Receipt number"
+msgstr "N° de reçu"
+
+msgid "Reference"
+msgstr "Référence"
+
+msgid "Note"
+msgstr "Note"
+
+msgid "Payment"
+msgstr "Paiement"
+
+msgid "Amount paid now"
+msgstr "Montant payé maintenant"
+
+msgid "Add registration fee"
+msgstr "Ajouter les frais d'inscription"
+
+msgid "Add annual insurance"
+msgstr "Ajouter l'assurance annuelle"
+
+msgid "Or new category"
+msgstr "Ou nouvelle catégorie"
+
+msgid "Leave empty to keep the current password"
+msgstr "Laisser vide pour garder le mot de passe actuel"
+
+msgid "Password is required for a new account"
+msgstr "Le mot de passe est obligatoire pour un nouveau compte"
+
+msgid "Member %(name)s created."
+msgstr "Adhérent %(name)s créé."
+
+msgid "Changes saved."
+msgstr "Modifications enregistrées."
+
+msgid "Member archived."
+msgstr "Adhérent archivé."
+
+msgid "Member restored."
+msgstr "Adhérent restauré."
+
+msgid "Only the owner can delete a member permanently."
+msgstr "Seul le propriétaire peut supprimer définitivement un adhérent."
+
+msgid "Member deleted."
+msgstr "Adhérent supprimé."
+
+msgid "Remaining to pay: %(amount)s"
+msgstr "Reste à payer : %(amount)s"
+
+msgid "Subscription %(plan)s added until %(date)s."
+msgstr "Abonnement %(plan)s ajouté jusqu'au %(date)s."
+
+msgid "Payment recorded."
+msgstr "Paiement enregistré."
+
+msgid "Subscription paused. Days will be added back when you resume it."
+msgstr "Abonnement en pause. Les jours seront rajoutés à la reprise."
+
+msgid "Subscription resumed. New end date: %(date)s"
+msgstr "Abonnement repris. Nouvelle date de fin : %(date)s"
+
+msgid "You are not allowed to do this."
+msgstr "Vous n'êtes pas autorisé à faire cela."
+
+msgid "Subscription cancelled."
+msgstr "Abonnement annulé."
+
+msgid "End date changed to %(date)s"
+msgstr "Date de fin modifiée : %(date)s"
+
+msgid "Only the owner can delete a payment."
+msgstr "Seul le propriétaire peut supprimer un paiement."
+
+msgid "Payment deleted."
+msgstr "Paiement supprimé."
+
+msgid "Expense added."
+msgstr "Dépense ajoutée."
+
+msgid "Expense deleted."
+msgstr "Dépense supprimée."
+
+msgid "Invalid data"
+msgstr "Données invalides"
+
+msgid "Sale recorded."
+msgstr "Vente enregistrée."
+
+msgid "Product saved."
+msgstr "Produit enregistré."
+
+msgid "Stock updated for %(name)s."
+msgstr "Stock mis à jour pour %(name)s."
+
+msgid "Account saved."
+msgstr "Compte enregistré."
+
+msgid "Staff account"
+msgstr "Compte employé"
+
+msgid "Settings saved."
+msgstr "Paramètres enregistrés."
+
+msgid "This license key is not valid."
+msgstr "Cette clé de licence n'est pas valide."
+
+msgid "This key was made for another installation."
+msgstr "Cette clé a été créée pour une autre installation."
+
+msgid "License activated until %(date)s."
+msgstr "Licence activée jusqu'au %(date)s."
+
+msgid "Plan saved."
+msgstr "Offre enregistrée."
+
+msgid "Activity saved."
+msgstr "Activité enregistrée."
+
+msgid ""
+"This plan is used by subscriptions, it was deactivated instead of deleted."
+msgstr ""
+"Cette offre est utilisée par des abonnements, elle a été désactivée au lieu "
+"d'être supprimée."
+
+msgid "Plan deleted."
+msgstr "Offre supprimée."
+
+msgid "Sun"
+msgstr "Dim"
+
+msgid "Mon"
+msgstr "Lun"
+
+msgid "Tue"
+msgstr "Mar"
+
+msgid "Wed"
+msgstr "Mer"
+
+msgid "Thu"
+msgstr "Jeu"
+
+msgid "Fri"
+msgstr "Ven"
+
+msgid "Sat"
+msgstr "Sam"
+
+msgid "By type"
+msgstr "Par type"
+
+msgid "By method"
+msgstr "Par mode"
+
+msgid "By plan"
+msgstr "Par offre"
+
+msgid "Entry forced by staff"
+msgstr "Entrée forcée par l'employé"
+
+msgid "Member not found"
+msgstr "Adhérent introuvable"
+
+msgid "Welcome!"
+msgstr "Bienvenue !"
+
+msgid "Language"
+msgstr "Langue"
+
+msgid "Upcoming"
+msgstr "À venir"
+
+msgid "Cancelled"
+msgstr "Annulé"
+
+msgid "Member is archived"
+msgstr "Adhérent archivé"
+
+msgid "Subscription is paused"
+msgstr "Abonnement en pause"
+
+msgid "Subscription has not started yet"
+msgstr "L'abonnement n'a pas encore commencé"
+
+msgid "Subscription expired"
+msgstr "Abonnement expiré"
+
+msgid "Unpaid balance"
+msgstr "Solde impayé"
+
+msgid "Already checked in today"
+msgstr "Déjà entré aujourd'hui"
+
+msgid "Install app"
+msgstr "Installer l'application"
+
+msgid "Install the app on this device"
+msgstr "Installer l'application sur cet appareil"
+
+msgid ""
+"Your free trial ends in %(d)s day. Contact us to keep using the software."
+msgid_plural ""
+"Your free trial ends in %(d)s days. Contact us to keep using the software."
+msgstr[0] ""
+"Votre essai gratuit se termine dans %(d)s jour. Contactez-nous pour "
+"continuer à utiliser le logiciel."
+msgstr[1] ""
+"Votre essai gratuit se termine dans %(d)s jours. Contactez-nous pour "
+"continuer à utiliser le logiciel."
+
+msgid ""
+"Your subscription ends in %(d)s day. Renew it to avoid any interruption."
+msgid_plural ""
+"Your subscription ends in %(d)s days. Renew it to avoid any interruption."
+msgstr[0] ""
+"Votre abonnement se termine dans %(d)s jour. Renouvelez-le pour éviter toute"
+" interruption."
+msgstr[1] ""
+"Votre abonnement se termine dans %(d)s jours. Renouvelez-le pour éviter "
+"toute interruption."
+
+msgid "Your access has been suspended"
+msgstr "Votre accès a été suspendu"
+
+msgid "License check needed"
+msgstr "Vérification de la licence nécessaire"
+
+msgid "Your free trial / subscription has ended"
+msgstr "Votre essai gratuit / abonnement est terminé"
+
+msgid "Your license has expired"
+msgstr "Votre licence a expiré"
+
+msgid ""
+"Your data is safe. Contact us to activate your subscription and continue "
+"using GymPro DZ."
+msgstr ""
+"Vos données sont en sécurité. Contactez-nous pour activer votre abonnement "
+"et continuer à utiliser GymPro DZ."
+
+msgid "Check again"
+msgstr "Vérifier à nouveau"
+
+msgid "Download a copy of my data"
+msgstr "Télécharger une copie de mes données"
+
+msgid "Last check"
+msgstr "Dernière vérification"
+
+msgid "Contact the vendor"
+msgstr "Contacter le fournisseur"
+
+msgid "Activation key (offline)"
+msgstr "Clé d'activation (hors ligne)"
+
+msgid ""
+"This computer has not been able to check its license for several days. "
+"Connect it to the internet and press “Check again”."
+msgstr ""
+"Cet ordinateur n'a pas pu vérifier sa licence depuis plusieurs jours. "
+"Connectez-le à Internet puis cliquez sur « Vérifier à nouveau »."
+
+msgid "License checked."
+msgstr "Licence vérifiée."
+
+msgid "Could not reach the license server. Check the internet connection."
+msgstr ""
+"Impossible de joindre le serveur de licences. Vérifiez la connexion "
+"Internet."
+
+msgid ""
+"Hello, I want to activate GymPro DZ. Gym: %(gym)s — Installation ID: %(id)s"
+msgstr ""
+"Bonjour, je souhaite activer GymPro DZ. Salle : %(gym)s — ID d'installation "
+": %(id)s"

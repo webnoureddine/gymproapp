@@ -1,0 +1,53 @@
+{% extends "gym/base.html" %}{% load i18n gym_tags %}
+{% block title %}{% translate "License" %}{% endblock %}
+{% block content %}
+<div class="page-head"><h1>{% translate "License" %}</h1></div>
+
+{% if status.locked %}
+<div class="card card-pad" style="max-width:720px;margin:0 auto 18px;text-align:center;border-color:var(--bad)">
+  <div style="color:var(--bad)">{% icon "key" 48 %}</div>
+  {% if status.state == "suspended" %}
+    <h2 style="font-size:1.4rem;margin:10px 0 6px">{% translate "Your access has been suspended" %}</h2>
+  {% elif status.state == "offline" %}
+    <h2 style="font-size:1.4rem;margin:10px 0 6px">{% translate "License check needed" %}</h2>
+    <p class="muted">{% blocktranslate %}This computer has not been able to check its license for several days. Connect it to the internet and press “Check again”.{% endblocktranslate %}</p>
+  {% else %}
+    <h2 style="font-size:1.4rem;margin:10px 0 6px">{% if status.source == "server" and status.state == "expired" and status.days_left > -365 %}{% translate "Your free trial / subscription has ended" %}{% else %}{% translate "Your license has expired" %}{% endif %}</h2>
+  {% endif %}
+  <p class="muted">{% translate "Your data is safe. Contact us to activate your subscription and continue using GymPro DZ." %}</p>
+  {% if status.message %}<div class="alert alert-info" style="justify-content:center">{{ status.message }}</div>{% endif %}
+  <div class="row" style="justify-content:center;margin-top:12px">
+    {% if wa_url %}<a class="btn btn-wa btn-lg" target="_blank" rel="noopener" href="{{ wa_url }}">{% icon "message" 18 %} WhatsApp</a>{% endif %}
+    {% if vendor.phone %}<a class="btn btn-lg" href="tel:{{ vendor.phone }}">{% icon "phone" 18 %} <span dir="ltr">{{ vendor.phone }}</span></a>{% endif %}
+    {% if online %}<form method="post">{% csrf_token %}<button class="btn btn-primary btn-lg" name="action" value="refresh">{% icon "refresh" 18 %} {% translate "Check again" %}</button></form>{% endif %}
+  </div>
+  {% if request.user.is_owner %}<p class="small" style="margin-top:14px"><a href="{% url 'backup' %}">{% icon "download" 14 %} {% translate "Download a copy of my data" %}</a></p>{% endif %}
+</div>
+{% endif %}
+
+<div class="grid g-2">
+  <div class="card card-pad stack">
+    {% if status.state == "licensed" %}
+      <div class="alert alert-success">{% icon "check" 18 %} {% blocktranslate with d=status.expires|date:"d/m/Y" %}Licensed until {{ d }}{% endblocktranslate %} ({{ status.days_left }} {% translate "days" %})</div>
+    {% elif status.state == "trial" %}
+      <div class="alert alert-warning">{% icon "clock" 18 %} {% blocktranslate with n=status.days_left %}Free trial — {{ n }} days left.{% endblocktranslate %}</div>
+    {% endif %}
+    <div><div class="muted small">{% translate "Installation ID (send it to your vendor)" %}</div>
+      <div class="big-num" style="letter-spacing:.08em;direction:ltr;text-align:start">{{ gym_cfg.install_id }}</div></div>
+    {% if online and not status.locked %}
+      <div class="row between small muted"><span>{% translate "Last check" %}: {{ gym_cfg.license_checked_at|date:"d/m/Y H:i"|default:"—" }}</span>
+        <form method="post">{% csrf_token %}<button class="btn btn-sm" name="action" value="refresh">{% icon "refresh" 14 %} {% translate "Check again" %}</button></form></div>
+    {% endif %}
+    {% if not status.locked and wa_url %}<a class="btn btn-wa" target="_blank" rel="noopener" href="{{ wa_url }}">{% icon "message" 16 %} {% translate "Contact the vendor" %}</a>{% endif %}
+  </div>
+  <div class="card card-pad">
+    {% if request.user.is_owner %}
+    <h2 style="margin-bottom:10px">{% translate "Activation key (offline)" %}</h2>
+    <form method="post" class="stack">{% csrf_token %}
+      {% include "gym/_field.html" with f=form.key %}
+      <button class="btn btn-primary">{% icon "key" 16 %} {% translate "Activate" %}</button>
+    </form>
+    {% else %}<p class="muted">{% translate "Ask the gym owner to activate the license." %}</p>{% endif %}
+  </div>
+</div>
+{% endblock %}

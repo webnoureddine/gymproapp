@@ -1,0 +1,88 @@
+{% extends "gym/base.html" %}{% load i18n gym_tags %}
+{% block title %}{% translate "Sell" %}{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>{% translate "Sell" %}</h1><div class="muted small">{% translate "Click products or scan a barcode." %}</div></div>
+  <div class="actions"><a class="btn" href="{% url 'sale_list' %}">{% icon "tag" 18 %} <span class="lbl">{% translate "Sales" %}</span></a></div></div>
+<div class="pos">
+  <div class="stack">
+    <div class="filters" style="margin:0">
+      <input class="input grow" id="pSearch" type="search" placeholder="{% translate 'Search product or scan barcode…' %}" autofocus>
+    </div>
+    {% if categories %}<div class="seg" id="cats"><a href="#" class="on" data-cat="">{% translate "All" %}</a>{% for c in categories %}<a href="#" data-cat="{{ c }}">{{ c }}</a>{% endfor %}</div>{% endif %}
+    <div class="products" id="products"></div>
+    {% if not products %}<div class="card empty">{% icon "package" 36 %}<div>{% translate "No product yet." %}</div>{% if can.shop_manage %}<a class="btn btn-primary" style="margin-top:10px" href="{% url 'product_create' %}">{% translate "Add products" %}</a>{% endif %}</div>{% endif %}
+  </div>
+  <div class="card cart">
+    <div class="card-head"><h2>{% translate "Cart" %}</h2><button class="btn btn-sm" id="clearBtn">{% icon "trash" 14 %}</button></div>
+    <div class="card-body">
+      <div id="lines"><div class="empty small">{% translate "Cart is empty" %}</div></div>
+      <div class="total-line"><span>{% translate "Total" %}</span><span id="total">0</span></div>
+      <div class="stack" style="gap:10px">
+        <div class="field ac" data-ac="{% url 'member_search_api' %}" data-go="pick" id="memberBox">
+          <label>{% translate "Member (optional — allows paying later)" %}</label>
+          <input class="input" placeholder="{% translate 'Walk-in customer' %}" id="memberInput">
+          <div class="ac-list hidden"></div>
+        </div>
+        <div class="row" style="flex-wrap:nowrap">
+          <div class="field" style="flex:1"><label>{% translate "Amount paid" %}</label><input class="input" type="number" id="paid" min="0" step="0.01"></div>
+          <div class="field" style="flex:1"><label>{% translate "Method" %}</label><select class="input" id="method">{% for k, v in METHODS %}<option value="{{ k }}">{{ v }}</option>{% endfor %}</select></div>
+        </div>
+        <label class="row small"><input type="checkbox" class="checkbox" id="printChk" checked> {% translate "Print receipt" %}</label>
+        <button class="btn btn-primary btn-lg btn-block" id="payBtn" disabled>{% icon "check" 18 %} {% translate "Validate sale" %}</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+(function(){
+  var P = {{ products_json|safe }}, cart = {}, cat = '', member = null;
+  var grid = document.getElementById('products'), search = document.getElementById('pSearch');
+  function renderProducts(){
+    var q = search.value.trim().toLowerCase();
+    grid.innerHTML = P.filter(function(p){ return (!cat || p.cat === cat) && (!q || p.name.toLowerCase().indexOf(q) >= 0 || p.barcode === q); }).map(function(p){
+      return '<button class="product" data-id="' + p.id + '"><b>' + escapeHtml(p.name) + '</b><span class="price">' + money(p.price) + '</span><span class="small ' + (p.stock <= 0 ? '" style="color:var(--bad)' : 'muted') + '">{% translate "Stock"|escapejs %}: ' + p.stock + '</span></button>';
+    }).join('');
+  }
+  function add(id){ cart[id] = (cart[id] || 0) + 1; renderCart(); }
+  function renderCart(){
+    var ids = Object.keys(cart), total = 0, el = document.getElementById('lines');
+    if (!ids.length) el.innerHTML = '<div class="empty small">{% translate "Cart is empty"|escapejs %}</div>';
+    else el.innerHTML = ids.map(function(id){ var p = P.find(function(x){ return x.id == id; }); var t = p.price * cart[id]; total += t;
+      return '<div class="cart-line"><div style="flex:1;min-width:0"><b class="small">' + escapeHtml(p.name) + '</b><div class="small muted">' + money(p.price) + '</div></div>' +
+        '<div class="qty"><button data-dec="' + id + '">−</button><span>' + cart[id] + '</span><button data-inc="' + id + '">+</button></div><b class="small nowrap" style="min-width:80px;text-align:end">' + money(t) + '</b></div>'; }).join('');
+    document.getElementById('total').textContent = money(total);
+    document.getElementById('paid').value = total || '';
+    document.getElementById('payBtn').disabled = !ids.length;
+    window._total = total;
+  }
+  grid.addEventListener('click', function(e){ var b = e.target.closest('[data-id]'); if (b) add(b.dataset.id); });
+  document.getElementById('lines').addEventListener('click', function(e){
+    var i = e.target.dataset.inc, d = e.target.dataset.dec;
+    if (i) cart[i]++; if (d) { cart[d]--; if (cart[d] <= 0) delete cart[d]; } renderCart();
+  });
+  search.addEventListener('input', renderProducts);
+  search.addEventListener('keydown', function(e){ if (e.key === 'Enter') { e.preventDefault(); var v = search.value.trim(); var p = P.find(function(x){ return x.barcode && x.barcode === v; });
+    if (!p) { var f = grid.querySelector('[data-id]'); if (f) p = {id: f.dataset.id}; } if (p) { add(p.id); search.value = ''; renderProducts(); } } });
+  var cats = document.getElementById('cats');
+  if (cats) cats.addEventListener('click', function(e){ var a = e.target.closest('[data-cat]'); if (!a) return; e.preventDefault(); cat = a.dataset.cat;
+    cats.querySelectorAll('a').forEach(function(x){ x.classList.toggle('on', x === a); }); renderProducts(); });
+  document.getElementById('memberBox').addEventListener('pick', function(e){ member = e.detail; document.getElementById('memberInput').value = member.name + ' (' + member.code + ')'; });
+  document.getElementById('memberInput').addEventListener('input', function(){ member = null; });
+  document.getElementById('clearBtn').addEventListener('click', function(){ cart = {}; renderCart(); });
+  document.getElementById('payBtn').addEventListener('click', function(){
+    var btn = this; btn.disabled = true;
+    var body = {items: Object.keys(cart).map(function(id){ return {id: +id, qty: cart[id]}; }), paid: document.getElementById('paid').value,
+                method: document.getElementById('method').value, member_id: member ? member.id : null};
+    fetch('{% url "pos_checkout" %}', {method: 'POST', headers: {'Content-Type': 'application/json', 'X-CSRFToken': GYM.csrf}, body: JSON.stringify(body)})
+      .then(function(r){ return r.json(); }).then(function(d){
+        if (!d.ok) { alert(d.message); btn.disabled = false; return; }
+        if (document.getElementById('printChk').checked && d.receipt) window.open(d.receipt, '_blank');
+        location.reload();
+      });
+  });
+  renderProducts(); renderCart();
+})();
+</script>
+{% endblock %}
