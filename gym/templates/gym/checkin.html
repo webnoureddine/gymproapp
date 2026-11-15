@@ -104,8 +104,11 @@
   document.getElementById('camBtn').addEventListener('click', function(){
     if (scanner) { scanner.stop().then(function(){ scanner = null; reader.classList.add('hidden'); }); return; }
     reader.classList.remove('hidden');
-    scanner = new Html5Qrcode('reader');
-    scanner.start({facingMode: 'environment'}, {fps: 10, qrbox: 220}, function(code){
+    // member cards carry a Code 128 barcode (older cards: QR code) — both are accepted
+    var F = window.Html5QrcodeSupportedFormats || {};
+    scanner = new Html5Qrcode('reader', {formatsToSupport: [F.CODE_128, F.QR_CODE, F.CODE_39, F.EAN_13].filter(function(x){ return x !== undefined; }),
+                                         experimentalFeatures: {useBarCodeDetectorIfSupported: true}, verbose: false});
+    scanner.start({facingMode: 'environment'}, {fps: 12, qrbox: function(w, h){ return {width: Math.min(w * 0.9, 380), height: Math.min(h * 0.5, 170)}; }, aspectRatio: 1.5}, function(code){
       if (code === last) return; last = code; setTimeout(function(){ last = ''; }, 3000);
       send({code: code});
     }).catch(function(err){ alert(err); reader.classList.add('hidden'); scanner = null; });

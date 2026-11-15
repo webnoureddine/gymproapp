@@ -51,6 +51,20 @@ class MemberForm(StyledMixin, forms.ModelForm):
             "photo": forms.ClearableFileInput(attrs={"accept": "image/*"}),
         }
 
+    def clean_photo(self):
+        return _clean_image(self, "photo", 600)
+
+
+def _clean_image(form, field, max_side, keep_png=False):
+    f = form.cleaned_data.get(field)
+    if f and hasattr(f, "content_type"):  # a new upload (not the existing file)
+        from .images import shrink
+        try:
+            return shrink(f, max_side, keep_png)
+        except Exception:
+            raise forms.ValidationError(_("This file is not a valid image."))
+    return f
+
 
 class SubscriptionForm(StyledMixin, forms.Form):
     plan = forms.ModelChoiceField(label=_("Plan"), queryset=Plan.objects.none())
@@ -137,6 +151,9 @@ class GymSettingsForm(StyledMixin, forms.ModelForm):
             "expiry_alert_days", "registration_fee", "insurance_fee", "allow_checkin_with_debt",
             "allow_checkin_expired", "women_schedule", "receipt_footer", "whatsapp_template",
         ]
+
+    def clean_logo(self):
+        return _clean_image(self, "logo", 400, keep_png=True)
 
 
 class StaffForm(StyledMixin, forms.ModelForm):

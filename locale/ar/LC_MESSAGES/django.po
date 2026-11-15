@@ -1290,3 +1290,30 @@ msgid ""
 "Hello, I want to activate GymPro DZ. Gym: %(gym)s — Installation ID: %(id)s"
 msgstr ""
 "السلام عليكم، أريد تفعيل GymPro DZ. الصالة: %(gym)s — رقم التثبيت: %(id)s"
+
+msgid "Change my password"
+msgstr "تغيير كلمة المرور"
+
+msgid "Your password has been changed."
+msgstr "تم تغيير كلمة المرور."
+
+msgid "Member card"
+msgstr "بطاقة المنخرط"
+
+msgid "Card printer (1 card)"
+msgstr "طابعة البطاقات (بطاقة واحدة)"
+
+msgid "A4 sheet"
+msgstr "ورقة A4"
+
+msgid "cards"
+msgstr "بطاقات"
+
+msgid "A4, cut along the dashed lines"
+msgstr "A4، قصّ على طول الخطوط المتقطعة"
+
+msgid "Print cards"
+msgstr "طباعة البطاقات"
+
+msgid "This file is not a valid image."
+msgstr "هذا الملف ليس صورة صالحة."

@@ -438,3 +438,18 @@ PLURALS = {
     "Your subscription ends in %(d)s day. Renew it to avoid any interruption.":
         "Your subscription ends in %(d)s days. Renew it to avoid any interruption.",
 }
+
+T.update({
+"Change my password": ("Changer mon mot de passe", "تغيير كلمة المرور"),
+"Your password has been changed.": ("Votre mot de passe a été modifié.", "تم تغيير كلمة المرور."),
+})
+
+T.update({
+"Member card": ("Carte adhérent", "بطاقة المنخرط"),
+"Card printer (1 card)": ("Imprimante à cartes (1 carte)", "طابعة البطاقات (بطاقة واحدة)"),
+"A4 sheet": ("Feuille A4", "ورقة A4"),
+"cards": ("cartes", "بطاقات"),
+"A4, cut along the dashed lines": ("A4, découpez le long des pointillés", "A4، قصّ على طول الخطوط المتقطعة"),
+"Print cards": ("Imprimer les cartes", "طباعة البطاقات"),
+"This file is not a valid image.": ("Ce fichier n'est pas une image valide.", "هذا الملف ليس صورة صالحة."),
+})

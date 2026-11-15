@@ -32,9 +32,9 @@ from django.conf import settings
 log = logging.getLogger(__name__)
 
 # ------------------------------------------------------------------ vendor constants (edit these)
-LICENSE_SECRET = b"whoaremedzfuckingibrahimwhofuckingworkeveryday"
-LICENSE_SERVER_URL = "https://pwhzpgltbidwmsfpwzts.supabase.co"   # your Supabase project URL, e.g. "https://abcdefgh.supabase.co"
-LICENSE_SERVER_KEY = "sb_publishable_6FnkHCqvx6jNgYVHqrhNdA_ahpvu6O0"   # your Supabase "anon public" key (safe to ship: it can only call check_license)
+LICENSE_SECRET = b"CHANGE-ME-GymProDZ-put-a-long-random-secret-here"
+LICENSE_SERVER_URL = ""   # your Supabase project URL, e.g. "https://abcdefgh.supabase.co"
+LICENSE_SERVER_KEY = ""   # your Supabase "publishable" key (sb_publishable_...) or legacy "anon" key — safe to ship
 VENDOR_NAME = "GymPro DZ"
 VENDOR_PHONE = ""          # e.g. "0550 12 34 56"  — shown on the lock screen
 VENDOR_WHATSAPP = ""       # e.g. "213550123456"   — international format, no + or spaces
@@ -74,13 +74,21 @@ def server_enabled():
     return bool(LICENSE_SERVER_URL and LICENSE_SERVER_KEY)
 
 
+def _headers():
+    h = {"apikey": LICENSE_SERVER_KEY.strip(), "Content-Type": "application/json", "Accept": "application/json"}
+    # legacy "anon" keys are JWTs (eyJ...) and also go in Authorization;
+    # new "sb_publishable_..." keys must ONLY be sent in the apikey header.
+    if not LICENSE_SERVER_KEY.strip().startswith("sb_"):
+        h["Authorization"] = f"Bearer {LICENSE_SERVER_KEY.strip()}"
+    return h
+
+
 def _call_server(gym):
     body = json.dumps({"p_install_id": gym.install_id, "p_gym_name": gym.name, "p_phone": gym.phone,
                        "p_city": gym.city, "p_version": APP_VERSION}).encode()
     req = urllib.request.Request(
         LICENSE_SERVER_URL.rstrip("/") + "/rest/v1/rpc/check_license", data=body, method="POST",
-        headers={"apikey": LICENSE_SERVER_KEY, "Authorization": f"Bearer {LICENSE_SERVER_KEY}",
-                 "Content-Type": "application/json", "Accept": "application/json"})
+        headers=_headers())
     with urllib.request.urlopen(req, timeout=6) as r:
         data = json.loads(r.read().decode())
     if isinstance(data, list):
@@ -114,7 +122,11 @@ _bg_lock = threading.Lock()
 
 
 def refresh_in_background(gym):
-    """Non-blocking refresh, at most one at a time."""
+    """Non-blocking refresh, at most one at a time.
+    On serverless hosts (Vercel) background threads are frozen between requests: refresh inline instead."""
+    if getattr(settings, "SERVERLESS", False):
+        refresh(gym)
+        return
     if not _bg_lock.acquire(blocking=False):
         return
 

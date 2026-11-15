@@ -537,3 +537,14 @@ def checkin_member(member, user, force=False):
     if ok and sub and sub.sessions_total and not already:
         Subscription.objects.filter(pk=sub.pk).update(sessions_used=models.F("sessions_used") + 1)
     return ci, ok, reason
+
+
+# =====================================================================
+#  Files stored in the database (photos & logo on Vercel / serverless)
+# =====================================================================
+class StoredFile(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    data = models.BinaryField()
+    content_type = models.CharField(max_length=80, default="application/octet-stream")
+    size = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)

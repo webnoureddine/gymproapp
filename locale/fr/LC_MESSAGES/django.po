@@ -1285,3 +1285,30 @@ msgid ""
 msgstr ""
 "Bonjour, je souhaite activer GymPro DZ. Salle : %(gym)s — ID d'installation "
 ": %(id)s"
+
+msgid "Change my password"
+msgstr "Changer mon mot de passe"
+
+msgid "Your password has been changed."
+msgstr "Votre mot de passe a été modifié."
+
+msgid "Member card"
+msgstr "Carte adhérent"
+
+msgid "Card printer (1 card)"
+msgstr "Imprimante à cartes (1 carte)"
+
+msgid "A4 sheet"
+msgstr "Feuille A4"
+
+msgid "cards"
+msgstr "cartes"
+
+msgid "A4, cut along the dashed lines"
+msgstr "A4, découpez le long des pointillés"
+
+msgid "Print cards"
+msgstr "Imprimer les cartes"
+
+msgid "This file is not a valid image."
+msgstr "Ce fichier n'est pas une image valide."

@@ -15,6 +15,7 @@ urlpatterns = [
     path("members/", members.member_list, name="member_list"),
     path("members/export/", members.member_export, name="member_export"),
     path("members/new/", members.member_create, name="member_create"),
+    path("members/cards/", members.member_cards, name="member_cards"),
     path("members/search/", members.member_search_api, name="member_search_api"),
     path("members/<int:pk>/", members.member_detail, name="member_detail"),
     path("members/<int:pk>/edit/", members.member_edit, name="member_edit"),
@@ -60,4 +61,5 @@ urlpatterns = [
     path("settings/", admin_views.settings_view, name="settings"),
     path("settings/license/", admin_views.license_view, name="license"),
     path("settings/backup/", admin_views.backup, name="backup"),
+    path("account/password/", admin_views.my_password, name="my_password"),
 ]

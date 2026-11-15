@@ -73,16 +73,24 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 
 # ---------------------------------------------------------------- Database
+# Serverless hosts (Vercel) start many short-lived copies of the app: never keep connections open there,
+# otherwise the Supabase pooler hits its client limit and random pages fail with error 500.
+SERVERLESS = bool(os.getenv("VERCEL") or os.getenv("SERVERLESS"))
 DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
 if DATABASE_URL:
     DATABASES = {
         "default": dj_database_url.parse(
             DATABASE_URL,
-            conn_max_age=60,
-            conn_health_checks=True,
+            conn_max_age=0 if SERVERLESS else 60,
+            conn_health_checks=not SERVERLESS,
             ssl_require=env_bool("DB_SSL", True),
         )
     }
+    _db = DATABASES["default"]
+    if str(_db.get("PORT")) == "6543":  # Supabase "Transaction pooler"
+        _db["DISABLE_SERVER_SIDE_CURSORS"] = True
+        _db.setdefault("OPTIONS", {})["prepare_threshold"] = None
+    _db.setdefault("OPTIONS", {}).setdefault("connect_timeout", 10)
 else:
     DATABASES = {
         "default": {
@@ -114,12 +122,16 @@ USE_TZ = True
 # ---------------------------------------------------------------- Static & media
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+# Photos & logo: on Vercel (no permanent disk) they are stored inside the database.
+MEDIA_IN_DB = env_bool("MEDIA_IN_DB", SERVERLESS)
 STORAGES = {
-    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "default": {"BACKEND": "gym.storage.DatabaseStorage" if MEDIA_IN_DB else "django.core.files.storage.FileSystemStorage"},
     "staticfiles": {"BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"},
 }
 MEDIA_URL = "media/"
 MEDIA_ROOT = Path(os.getenv("MEDIA_ROOT", BASE_DIR / "media"))
+WHITENOISE_USE_FINDERS = True  # CSS/JS work even if collectstatic was not run (e.g. on Vercel)
+DATA_UPLOAD_MAX_MEMORY_SIZE = 6 * 1024 * 1024  # webcam photos are sent as text
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"

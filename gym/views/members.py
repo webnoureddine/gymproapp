@@ -165,16 +165,24 @@ def member_delete(request, pk):
 
 @perm_required("members_view")
 def member_card(request, pk):
-    import qrcode
-    import qrcode.image.svg
-
+    from ..barcode import code128_svg
     member = get_object_or_404(Member, pk=pk)
-    img = qrcode.make(member.code, image_factory=qrcode.image.svg.SvgPathImage, box_size=10, border=1)
-    buf = io.BytesIO()
-    img.save(buf)
-    svg = buf.getvalue().decode()
-    svg = svg[svg.find("<svg"):]
-    return render(request, "gym/members/card.html", {"m": member, "qr_svg": svg, "sub": member.current_subscription()})
+    return render(request, "gym/members/card.html", {
+        "cards": [(member, code128_svg(member.code))], "single": True, "sheet": request.GET.get("sheet") == "1",
+        "back_url": f"/members/{member.pk}/",
+    })
+
+
+@perm_required("members_view")
+def member_cards(request):
+    """Print many cards on A4 sheets: ?ids=1,2,3 or the same filters as the member list."""
+    from ..barcode import code128_svg
+    ids = [int(x) for x in request.GET.get("ids", "").split(",") if x.strip().isdigit()]
+    members = list(Member.objects.filter(pk__in=ids)) if ids else _filtered(request)
+    members = members[:300]
+    return render(request, "gym/members/card.html", {
+        "cards": [(m, code128_svg(m.code)) for m in members], "single": False, "sheet": True, "back_url": "/members/",
+    })
 
 
 @perm_required("members_view")

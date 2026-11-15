@@ -4,6 +4,7 @@
 <div class="page-head">
   <div><h1>{% translate "Members" %}</h1><div class="muted small">{{ total }} {% translate "results" %}</div></div>
   <div class="actions">
+    <a class="btn" target="_blank" href="{% url 'member_cards' %}{% qs page='' %}">{% icon "id" 18 %} <span class="lbl">{% translate "Print cards" %}</span></a>
     <a class="btn" href="{% url 'member_export' %}{% qs page='' %}">{% icon "download" 18 %} <span class="lbl">Excel (CSV)</span></a>
     {% if can.members %}<a class="btn btn-primary" href="{% url 'member_create' %}">{% icon "user-plus" 18 %} <span class="lbl">{% translate "New member" %}</span></a>{% endif %}
   </div>
